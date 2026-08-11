@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+// Veículo arrematado em leilão. Os campos de leilão (auctioneer, lotNumber,
+// auctionDate, purchaseValue, auctionNotes) são PRIVADOS: nunca devem ser
+// expostos em páginas ou APIs públicas.
+model Vehicle {
+  id            String    @id @default(cuid())
+  brand         String
+  model         String
+  modelYear     Int
+  fuel          String?
+  fipeCode      String?
+  fipeValue     Float?
+  doors         Int       @default(4)
+  body          String    @default("HATCH") // HATCH | SEDAN | PICAPE | SUV | PERUA | UTILITARIO
+  engine        String? // ex.: "1.8 8V"
+  engineFamily  String? // ex.: "Fire", "AP", "EA111"
+  transmission  String    @default("MANUAL") // MANUAL | AUTOMATICO
+  color         String?
+  status        String    @default("DESMANCHE") // DESMANCHE | FINALIZADO
+  photos        String    @default("[]") // JSON array de caminhos
+  // ---- dados privados de leilão ----
+  auctioneer    String?
+  auctionName   String?
+  lotNumber     String?
+  auctionDate   DateTime?
+  purchaseValue Float?
+  auctionNotes  String?
+  // ----------------------------------
+  arrivedAt     DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  parts         Part[]
+}
+
+model Part {
+  id          String    @id @default(cuid())
+  vehicleId   String
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  name        String
+  group       String
+  quantity    Int       @default(1)
+  status      String    @default("AVALIAR") // AVALIAR | DISPONIVEL | VENDIDA | SUCATA | DESCARTE
+  price       Float?
+  soldPrice   Float?
+  soldAt      DateTime?
+  description String?
+  photos      String    @default("[]") // JSON array de caminhos
+  mlLink      String?
+  featured    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([vehicleId])
+  @@index([status])
+}
+
+model Settings {
+  id           Int     @id @default(1)
+  storeName    String  @default("Juca Carros Velhos")
+  whatsapp     String  @default("5514998664187")
+  phone2       String  @default("5514981473010")
+  facebook     String  @default("https://www.facebook.com/JucaCarroVelhos")
+  instagram    String?
+  tiktok       String?
+  mercadoLivre String?
+  address      String  @default("Rua Armando Polônio, 255 – Maria Luiza 3")
+  city         String  @default("Bariri/SP")
+  mapsUrl      String  @default("https://www.google.com/maps/place/Desmonte+juca+carros+velhos/@-22.0790115,-48.7581759,17z")
+  tagline      String  @default("Peças usadas com procedência, direto do pátio!")
+  about        String  @default("Desmanche legalizado pelo DETRAN-SP em Bariri. Compramos veículos em leilão, desmontamos com responsabilidade e vendemos peças usadas com procedência garantida.")
+}

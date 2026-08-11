@@ -1,0 +1,449 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Paleta industrial: aço frio + chama ---- */
+  --color-base: #0b0c0e; /* fundo da página */
+  --color-surface: #121417; /* cartões e faixas */
+  --color-raised: #1a1d21; /* elemento sobre cartão */
+  --color-line: #262a30; /* filete de separação */
+  --color-muted: #8b929c; /* texto secundário */
+  --color-dim: #5b626c; /* texto terciário */
+
+  --color-flame-400: #ff8c42;
+  --color-flame: #ff6b1a; /* acento único da marca */
+  --color-flame-600: #e2540c;
+
+  /* Sinalização de estado — usada em etiquetas de status */
+  --color-signal-ok: #34d399;
+  --color-signal-warn: #fbbf24;
+  --color-signal-bad: #f87171;
+  --color-signal-info: #60a5fa;
+  --color-signal-cool: #3aa8c1;
+
+  --font-display: var(--font-archivo-black);
+  --font-sans: var(--font-archivo);
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.5), 0 24px 56px -16px rgb(0 0 0 / 0.85);
+  --shadow-flame: 0 8px 30px -10px rgb(255 107 26 / 0.55);
+}
+
+body {
+  background: var(--color-base);
+  color: #fff;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Título display — caixa alta, compacto, de placa de equipamento */
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.02;
+}
+
+/* Retícula técnica sutil, no lugar da textura de metal antiga */
+.metal-texture {
+  background-image: radial-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+/* Filete de chama: substitui a listra de zebra amarela */
+.hazard-stripe {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-flame) 18%,
+    var(--color-flame-400) 50%,
+    var(--color-flame) 82%,
+    transparent
+  );
+}
+
+/* Brilho de fundo para heros e faixas de destaque */
+.glow-flame {
+  background:
+    radial-gradient(110% 70% at 50% 0%, rgb(255 107 26 / 0.1), transparent 62%),
+    var(--color-base);
+}
+
+::selection {
+  background: var(--color-flame);
+  color: #fff;
+}
+
+/* Foco visível — o tema escuro engole o outline padrão */
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-flame);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ================================================================
+   VISTA EXPLODIDA — linguagem industrial escura
+   ================================================================ */
+
+:root {
+  --steel-950: #0b0c0e;
+  --steel-900: #121417;
+  --steel-800: #1a1d21;
+  --steel-700: #262a30;
+  --steel-500: #6b7280;
+  --flame: #ff6b1a;
+  --flame-soft: #ff8c42;
+}
+
+.exp-shell {
+  position: relative;
+  height: 420vh;
+  background: var(--steel-950);
+}
+
+.exp-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 12%, rgb(255 107 26 / 0.09), transparent 62%),
+    radial-gradient(90% 60% at 78% 84%, rgb(58 168 193 / 0.07), transparent 60%),
+    var(--steel-950);
+}
+
+.exp-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(75% 60% at 50% 50%, #000 25%, transparent 78%);
+}
+
+/* ---- rótulos técnicos (linha de chamada) ---- */
+.exp-label {
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  user-select: none;
+}
+.exp-label[data-vis="1"] {
+  opacity: 0.8;
+}
+.exp-label[data-on="1"] {
+  opacity: 1;
+}
+.exp-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent, var(--flame));
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.1);
+  flex: none;
+}
+.exp-line {
+  width: 38px;
+  height: 1px;
+  flex: none;
+  background: linear-gradient(90deg, var(--accent, var(--flame)), rgb(255 255 255 / 0.22));
+}
+.exp-text {
+  padding-left: 9px;
+  line-height: 1.25;
+}
+
+/* Rótulo espelhado: peça na metade direita puxa o texto para dentro */
+.exp-label[data-side="l"] {
+  flex-direction: row-reverse;
+  transform: translate(-100%, -50%);
+}
+.exp-label[data-side="l"] .exp-line {
+  background: linear-gradient(270deg, var(--accent, var(--flame)), rgb(255 255 255 / 0.22));
+}
+.exp-label[data-side="l"] .exp-text {
+  padding-left: 0;
+  padding-right: 9px;
+  text-align: right;
+}
+.exp-text b {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.7);
+}
+.exp-text i {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: rgb(255 255 255 / 0.52);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.7);
+}
+
+/* ---- carregamento ---- */
+.exp-loader {
+  width: 210px;
+  text-align: center;
+  color: rgb(255 255 255 / 0.65);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.exp-loader-bar {
+  height: 2px;
+  background: rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.exp-loader-bar div {
+  height: 100%;
+  background: var(--flame);
+  transition: width 0.2s ease;
+}
+
+/* ---- HUD ---- */
+.exp-hud {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(20px, 4vw, 44px);
+  /* a barra fixa tem 64px — o título não pode nascer embaixo dela */
+  padding-top: calc(64px + clamp(20px, 4vw, 44px));
+  pointer-events: none;
+}
+.exp-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--flame);
+  margin-bottom: 12px;
+}
+.exp-title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(26px, 4.4vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.exp-title span {
+  color: var(--flame);
+}
+.exp-sub {
+  margin-top: 14px;
+  max-width: 34ch;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.5);
+}
+
+.exp-hud-top {
+  transition: opacity 0.25s ease;
+}
+
+/* ---- legenda de conjuntos (inventário ligado ao 3D) ---- */
+.exp-legend {
+  position: absolute;
+  right: clamp(20px, 4vw, 44px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 226px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.exp-legend[data-vis="1"] {
+  opacity: 1;
+}
+.exp-legend button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s ease;
+}
+.exp-legend button:hover,
+.exp-legend button[data-on="1"] {
+  background: rgb(255 255 255 / 0.06);
+  border-color: rgb(255 255 255 / 0.12);
+}
+.exp-legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  flex: none;
+  opacity: 0.75;
+}
+.exp-legend button[data-on="1"] .exp-legend-dot {
+  opacity: 1;
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.12);
+}
+.exp-legend-name {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgb(255 255 255 / 0.55);
+  line-height: 1.3;
+}
+.exp-legend button[data-on="1"] .exp-legend-name {
+  color: #fff;
+}
+.exp-legend-qty {
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 0.35);
+}
+.exp-legend button[data-on="1"] .exp-legend-qty {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .exp-legend {
+    display: none;
+  }
+}
+
+.exp-hud-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.exp-switch {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  pointer-events: auto;
+}
+.exp-switch button {
+  text-align: left;
+  padding: 9px 14px;
+  border-radius: 11px;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(255 255 255 / 0.04);
+  backdrop-filter: blur(10px);
+  color: rgb(255 255 255 / 0.62);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+.exp-switch button:hover {
+  border-color: rgb(255 255 255 / 0.24);
+  color: #fff;
+}
+.exp-switch button[data-on="1"] {
+  border-color: var(--flame);
+  background: rgb(255 107 26 / 0.14);
+  color: #fff;
+}
+.exp-switch b {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.exp-switch i {
+  display: block;
+  font-style: normal;
+  font-size: 10px;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+.exp-tools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+}
+.exp-tools button {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background: rgb(255 255 255 / 0.04);
+  color: rgb(255 255 255 / 0.7);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.exp-tools button:hover {
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.3);
+}
+.exp-meter {
+  width: clamp(80px, 16vw, 190px);
+  height: 2px;
+  background: rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.exp-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--flame), var(--flame-soft));
+  transition: width 0.12s linear;
+}
+.exp-pct {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.42);
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .exp-shell {
+    height: 300vh;
+  }
+  .exp-sub,
+  .exp-pct {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exp-shell {
+    height: 100vh;
+  }
+}
+
+/* Scrollbar discreta no admin */
+.thin-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}

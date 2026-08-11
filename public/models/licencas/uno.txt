@@ -1,0 +1,11 @@
+Model Information:
+* title:	UNO MILLE SMART 2001 - RIGGED MODEL
+* source:	https://sketchfab.com/3d-models/uno-mille-smart-2001-rigged-model-ede3d69de2be4993ad58be4910590df2
+* author:	bruno_sales (https://sketchfab.com/bruno_sales)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "UNO MILLE SMART 2001 - RIGGED MODEL" (https://sketchfab.com/3d-models/uno-mille-smart-2001-rigged-model-ede3d69de2be4993ad58be4910590df2) by bruno_sales (https://sketchfab.com/bruno_sales) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
