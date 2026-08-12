@@ -90,14 +90,15 @@ mesmo arquivo SQLite (custo: alguns segundos de indisponibilidade).
 
 ## Backup (importante)
 
-Tudo o que não pode ser perdido está em dois volumes: `juca_juca_data`
-(banco) e `juca_juca_uploads` (fotos das peças).
+Tudo o que não pode ser perdido está em dois volumes: `juca_data` (banco) e
+`juca_uploads` (fotos das peças). Eles têm `name` explícito na stack, então
+não recebem prefixo do Portainer e sobrevivem se a stack for recriada.
 
 ```bash
 # Backup
-docker run --rm -v juca_juca_data:/data -v /root/backups:/bkp alpine \
+docker run --rm -v juca_data:/data -v /root/backups:/bkp alpine \
   tar czf /bkp/juca-db-$(date +%F).tar.gz -C /data .
-docker run --rm -v juca_juca_uploads:/up -v /root/backups:/bkp alpine \
+docker run --rm -v juca_uploads:/up -v /root/backups:/bkp alpine \
   tar czf /bkp/juca-fotos-$(date +%F).tar.gz -C /up .
 ```
 

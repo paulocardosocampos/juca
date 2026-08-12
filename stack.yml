@@ -9,7 +9,7 @@
 #
 # Só falta preencher AUTH_SECRET e ADMIN_PASSWORD, marcados com "PREENCHER".
 # ---------------------------------------------------------------------------
-version: "3.8"
+version: "3.7"
 
 services:
   juca:
@@ -17,22 +17,22 @@ services:
 
     environment:
       # Banco SQLite dentro do volume juca_data
-      DATABASE_URL: "file:/data/juca.db"
+      - DATABASE_URL=file:/data/juca.db
 
       # PREENCHER — gere na VPS com: openssl rand -base64 33
-      AUTH_SECRET: "COLE_AQUI_O_SEGREDO_GERADO"
-      AUTH_TRUST_HOST: "true"
+      - AUTH_SECRET=COLE_AQUI_O_SEGREDO_GERADO
+      - AUTH_TRUST_HOST=true
       # Precisa ser o domínio público, senão o login redireciona para o
       # endereço interno do container.
-      AUTH_URL: "https://juca.pcmidialabs.com.br"
+      - AUTH_URL=https://juca.pcmidialabs.com.br
 
       # Administrador criado na primeira subida. Trocar a senha aqui e
       # reimplantar a stack redefine a senha do usuário.
-      ADMIN_USERNAME: "admin"
-      ADMIN_PASSWORD: "PREENCHER_COM_UMA_SENHA_FORTE"
-      ADMIN_NAME: "Juca"
+      - ADMIN_USERNAME=admin
+      - ADMIN_PASSWORD=PREENCHER_COM_UMA_SENHA_FORTE
+      - ADMIN_NAME=Juca
 
-      TZ: "America/Sao_Paulo"
+      - TZ=America/Sao_Paulo
 
     volumes:
       - juca_data:/data                    # banco de dados
@@ -46,11 +46,13 @@ services:
       replicas: 1        # o SQLite exige exatamente 1 réplica
       placement:
         constraints:
-          # Prende o serviço ao nó que tem os volumes. Se o swarm tiver mais de
-          # um manager, troque por: node.hostname == manager1
+          # Prende o serviço ao nó que tem os volumes. Se um dia o swarm tiver
+          # mais de um manager, troque por: node.hostname == manager1
           - node.role == manager
+      # stop-first: encerra o container antigo antes de subir o novo, para que
+      # nunca existam dois processos escrevendo no mesmo arquivo SQLite.
       update_config:
-        order: stop-first          # nunca dois containers no mesmo banco
+        order: stop-first
         failure_action: rollback
         delay: 10s
       restart_policy:
@@ -64,19 +66,23 @@ services:
           memory: 200M
       labels:
         - traefik.enable=true
-        - traefik.docker.network=network_public
         - traefik.http.routers.juca.rule=Host(`juca.pcmidialabs.com.br`)
         - traefik.http.routers.juca.entrypoints=websecure
-        - traefik.http.routers.juca.tls=true
+        - traefik.http.routers.juca.priority=1
         - traefik.http.routers.juca.tls.certresolver=letsencryptresolver
         - traefik.http.routers.juca.service=juca
         - traefik.http.services.juca.loadbalancer.server.port=3000
         - traefik.http.services.juca.loadbalancer.passHostHeader=true
 
 volumes:
+  # O "name" explícito evita que o Portainer prefixe com o nome da stack —
+  # os volumes ficam como juca_data e juca_uploads, previsíveis para backup.
   juca_data:
+    name: juca_data
   juca_uploads:
+    name: juca_uploads
 
 networks:
   network_public:
+    name: network_public
     external: true
