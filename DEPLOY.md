@@ -17,7 +17,7 @@ precisa de container de banco separado.
 | Entrypoint HTTPS | `websecure` (:443) — o entrypoint `web` já redireciona :80 → :443 |
 | Certresolver | `letsencryptresolver` (desafio HTTP-01) |
 
-O [`stack.yml`](./stack.yml) já vem com esses valores. Como o Traefik roda com
+O [`stack.example.yml`](./stack.example.yml) já vem com esses valores. Como o Traefik roda com
 `--providers.docker.exposedbydefault=false`, a label `traefik.enable=true` é
 obrigatória — ela também já está lá.
 
@@ -46,7 +46,7 @@ de login. Se um dia ele aparecer como privado, o caminho é GitHub → seu perfi
 ## 4. Crie a stack no Portainer
 
 *Stacks* → **Add stack** → nome `juca` → **Web editor** → cole o conteúdo de
-[`stack.yml`](./stack.yml) já ajustado.
+[`stack.example.yml`](./stack.example.yml) já ajustado.
 
 Preencha antes de implantar:
 

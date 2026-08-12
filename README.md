@@ -58,7 +58,8 @@ O site roda em Docker Swarm (Portainer + Traefik) em
 
 Resumo: cada push na `main` dispara o workflow do GitHub Actions, que publica
 `ghcr.io/paulocardosocampos/juca:latest` no GHCR; no Portainer basta atualizar
-a stack ([stack.yml](./stack.yml)) com a opção de re-pull da imagem.
+a stack ([stack.example.yml](./stack.example.yml)) com a opção de re-pull da
+imagem.
 
 Arquivos envolvidos:
 
@@ -66,7 +67,7 @@ Arquivos envolvidos:
 Dockerfile               imagem de produção (Next standalone + Prisma)
 docker-entrypoint.sh     migrate deploy → bootstrap → start
 scripts/bootstrap.mjs    cria admin e configurações (sem dados de demonstração)
-stack.yml                stack do Swarm com as labels do Traefik
+stack.example.yml        modelo da stack do Swarm (labels do Traefik)
 .github/workflows/       build e push da imagem para o GHCR
 ```
 

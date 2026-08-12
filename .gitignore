@@ -38,6 +38,10 @@ yarn-error.log*
 *.db
 *.db-journal
 
+# cópia da stack preenchida com senhas — o modelo versionado é
+# stack.example.yml
+/stack.yml
+
 # assets pesados de referência (não versionados)
 /modelos_3D_carros
 
