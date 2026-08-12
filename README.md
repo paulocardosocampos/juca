@@ -50,8 +50,25 @@ src/app/api/       proxy FIPE (autenticado) + upload de fotos
 public/uploads/    fotos enviadas pelo admin
 ```
 
-## Publicando na nuvem (fase 2)
+## Produção
 
-1. Criar banco Postgres (ex.: Neon) e trocar `provider = "postgresql"` no `schema.prisma`
-2. `DATABASE_URL` e `AUTH_SECRET` nas variáveis de ambiente do host (ex.: Vercel)
-3. Trocar o armazenamento de fotos de `public/uploads` para um blob storage (ex.: Vercel Blob)
+O site roda em Docker Swarm (Portainer + Traefik) em
+**https://juca.pcmidialabs.com.br**. O passo a passo completo está em
+[DEPLOY.md](./DEPLOY.md).
+
+Resumo: cada push na `main` dispara o workflow do GitHub Actions, que publica
+`ghcr.io/paulocardosocampos/juca:latest` no GHCR; no Portainer basta atualizar
+a stack ([stack.yml](./stack.yml)) com a opção de re-pull da imagem.
+
+Arquivos envolvidos:
+
+```
+Dockerfile               imagem de produção (Next standalone + Prisma)
+docker-entrypoint.sh     migrate deploy → bootstrap → start
+scripts/bootstrap.mjs    cria admin e configurações (sem dados de demonstração)
+stack.yml                stack do Swarm com as labels do Traefik
+.github/workflows/       build e push da imagem para o GHCR
+```
+
+Dados persistentes ficam em dois volumes: `juca_data` (banco SQLite) e
+`juca_uploads` (fotos das peças).

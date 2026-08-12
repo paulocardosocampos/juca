@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+.env
+.env.*
+!.env.example
+*.db
+*.db-journal
+modelos_3D_carros
+public/uploads/*
+!public/uploads/.gitignore
+npm-debug.log*
+*.tsbuildinfo
+README.md
+DEPLOY.md
+cartao_Juca.jpg

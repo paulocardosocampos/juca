@@ -1,0 +1,6 @@
+# Scripts executados dentro do container precisam de quebra de linha LF —
+# com CRLF o shebang falha ("no such file or directory") no Linux.
+*.sh text eol=lf
+docker-entrypoint.sh text eol=lf
+Dockerfile text eol=lf
+*.mjs text eol=lf
