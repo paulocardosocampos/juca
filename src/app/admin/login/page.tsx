@@ -2,23 +2,18 @@
 
 import { useActionState } from "react";
 import { loginAction } from "../actions";
-import { JucaMark } from "@/components/mascot";
+import { JucaLogo } from "@/components/logo";
 
 const FIELD =
-  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[14px] text-white outline-none transition-colors focus:border-flame";
+  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[14px] text-white outline-none transition-colors focus:border-gold";
 
 export default function LoginPage() {
   const [error, formAction, pending] = useActionState(loginAction, undefined);
 
   return (
-    <div className="min-h-screen glow-flame flex items-center justify-center px-5">
+    <div className="min-h-screen glow-gold flex items-center justify-center px-5">
       <div className="w-full max-w-sm">
-        <div className="flex items-center gap-2.5 mb-8">
-          <JucaMark className="w-6 h-auto text-flame" />
-          <span className="text-[13px] font-bold tracking-[0.14em] uppercase">
-            Juca<span className="text-white/35"> · Carros Velhos</span>
-          </span>
-        </div>
+        <JucaLogo priority className="h-24 w-auto mb-8" />
 
         <h1 className="display text-[26px]">Área do gestor</h1>
         <p className="text-[13px] text-white/40 mt-2">
@@ -70,7 +65,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full rounded-lg bg-flame hover:bg-flame-400 disabled:opacity-50 text-base text-[12px] font-bold tracking-[0.12em] uppercase py-3.5 transition-colors cursor-pointer"
+            className="w-full rounded-lg bg-gold hover:bg-gold-400 disabled:opacity-50 text-base text-[12px] font-bold tracking-[0.12em] uppercase py-3.5 transition-colors cursor-pointer"
           >
             {pending ? "Entrando..." : "Entrar"}
           </button>

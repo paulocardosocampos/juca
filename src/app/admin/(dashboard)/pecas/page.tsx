@@ -26,7 +26,7 @@ export default async function PartsAdminPage({
   });
 
   const selectCls =
-    "rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-flame";
+    "rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-gold";
 
   return (
     <div className="space-y-5 max-w-6xl">
@@ -67,7 +67,7 @@ export default async function PartsAdminPage({
             className={`${selectCls} w-full`}
           />
         </div>
-        <button className="text-xs font-bold tracking-[0.08em] uppercase bg-flame hover:bg-flame-400 text-base rounded-lg px-5 py-2.5 cursor-pointer transition-colors">
+        <button className="text-xs font-bold tracking-[0.08em] uppercase bg-gold hover:bg-gold-400 text-base rounded-lg px-5 py-2.5 cursor-pointer transition-colors">
           Filtrar
         </button>
       </form>
@@ -95,7 +95,7 @@ export default async function PartsAdminPage({
                     <td className="px-5 py-2.5">
                       <Link
                         href={`/admin/veiculos/${p.vehicle.id}`}
-                        className="font-semibold text-flame hover:underline"
+                        className="font-semibold text-gold hover:underline"
                       >
                         {p.featured && "⭐ "}
                         {p.name}

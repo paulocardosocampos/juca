@@ -107,8 +107,8 @@ export function classify(nodeName: string, rules: GroupRule[]): PartGroup {
 
 /** Cor de realce por grupo — usada no rótulo e no highlight de hover. */
 export const GROUP_ACCENT: Record<string, string> = {
-  Motor: "#ff6b1a",
-  "Câmbio e Transmissão": "#ff8c42",
+  Motor: "#f0b41c",
+  "Câmbio e Transmissão": "#fcd427",
   "Suspensão e Direção": "#c9a227",
   Freios: "#e5484d",
   "Elétrica e Injeção": "#ffd166",

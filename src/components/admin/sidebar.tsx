@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { JucaMark } from "@/components/mascot";
+import { JucaLogo } from "@/components/logo";
 import { logoutAction } from "@/app/admin/actions";
 
 const LINKS = [
@@ -44,7 +44,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
             onClick={() => setOpen(false)}
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-colors border ${
               active
-                ? "bg-flame/12 text-flame border-flame/25"
+                ? "bg-gold/12 text-gold border-gold/25"
                 : "text-white/50 hover:text-white hover:bg-white/5 border-transparent"
             }`}
           >
@@ -83,9 +83,9 @@ export function AdminSidebar({ userName }: { userName: string }) {
       {/* Barra mobile */}
       <header className="lg:hidden sticky top-0 z-40 bg-base/85 backdrop-blur-xl border-b border-white/8 flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2.5">
-          <JucaMark className="w-5 h-auto text-flame" />
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase">
-            Juca<span className="text-white/35"> · Admin</span>
+          <JucaLogo className="h-9 w-auto" />
+          <span className="text-[11px] font-bold tracking-[0.14em] uppercase text-white/35">
+            Admin
           </span>
         </div>
         <button
@@ -112,12 +112,11 @@ export function AdminSidebar({ userName }: { userName: string }) {
 
       {/* Sidebar desktop */}
       <aside className="hidden lg:flex w-60 shrink-0 flex-col bg-surface border-r border-white/8 min-h-screen sticky top-0 max-h-screen">
-        <div className="flex items-center gap-2.5 px-5 py-6">
-          <JucaMark className="w-6 h-auto text-flame" />
-          <div className="leading-tight">
-            <p className="text-[12px] font-bold tracking-[0.14em] uppercase">Juca</p>
-            <p className="text-[10px] text-white/30 tracking-wide">Carros Velhos · Admin</p>
-          </div>
+        <div className="px-5 py-6">
+          <JucaLogo className="h-14 w-auto" />
+          <p className="mt-2 text-[10px] font-bold tracking-[0.18em] uppercase text-white/30">
+            Área do gestor
+          </p>
         </div>
         {nav}
         <div className="px-5 py-4 mt-4 text-[11px] text-white/25 border-t border-white/8">

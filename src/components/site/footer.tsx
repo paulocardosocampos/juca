@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { JucaMark } from "@/components/mascot";
+import { JucaLogo } from "@/components/logo";
 import { formatPhone } from "@/lib/format";
 import { whatsappLink } from "@/lib/whatsapp";
 import type { Settings } from "@prisma/client";
@@ -16,20 +16,13 @@ export function SiteFooter({ settings }: { settings: Settings }) {
     <footer className="mt-auto border-t border-white/8 bg-surface">
       <div className="mx-auto max-w-7xl px-5 py-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <JucaMark className="w-7 h-auto text-flame" />
-            <p className="display text-sm leading-tight">
-              Juca
-              <br />
-              Carros Velhos
-            </p>
-          </div>
+          <JucaLogo className="h-20 w-auto" />
           <p className="mt-5 text-[13px] leading-relaxed text-white/40 max-w-xs">
             Desmanche legalizado pelo DETRAN. Compra, venda ou troca — peças usadas com
             procedência de leilão oficial.
           </p>
-          <p className="mt-5 inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.14em] uppercase text-flame border border-flame/30 rounded-full px-3 py-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-flame" aria-hidden />
+          <p className="mt-5 inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.14em] uppercase text-gold border border-gold/30 rounded-full px-3 py-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold" aria-hidden />
             Registro DETRAN-SP
           </p>
         </div>

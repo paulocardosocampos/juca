@@ -11,7 +11,7 @@ import type { GroupStock } from "@/components/site/exploded-view";
 export const dynamic = "force-dynamic";
 
 const FIELD =
-  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[13px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-flame";
+  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[13px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-gold";
 
 export default async function HomePage() {
   const [
@@ -135,7 +135,7 @@ export default async function HomePage() {
                 className={FIELD}
               />
             </div>
-            <button className="rounded-lg bg-flame hover:bg-flame-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-7 py-3.5 transition-colors cursor-pointer">
+            <button className="rounded-lg bg-gold hover:bg-gold-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-7 py-3.5 transition-colors cursor-pointer">
               Buscar
             </button>
           </form>
@@ -151,7 +151,7 @@ export default async function HomePage() {
           { n: "100%", l: "origem em leilão oficial" },
         ].map((s) => (
           <div key={s.l}>
-            <p className="display text-[clamp(30px,4.4vw,48px)] text-flame tabular-nums">{s.n}</p>
+            <p className="display text-[clamp(30px,4.4vw,48px)] text-gold tabular-nums">{s.n}</p>
             <p className="mt-2 text-[12px] leading-snug text-white/40">{s.l}</p>
           </div>
         ))}
@@ -161,14 +161,14 @@ export default async function HomePage() {
       <section className="mx-auto max-w-7xl px-5 pb-20">
         <div className="flex items-end justify-between gap-4 mb-7">
           <div>
-            <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+            <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
               Saiu do pátio
             </p>
             <h2 className="display text-[clamp(22px,3vw,34px)]">Peças em destaque</h2>
           </div>
           <Link
             href="/pecas"
-            className="text-[12px] font-semibold text-white/50 hover:text-flame transition-colors whitespace-nowrap"
+            className="text-[12px] font-semibold text-white/50 hover:text-gold transition-colors whitespace-nowrap"
           >
             ver catálogo completo →
           </Link>
@@ -192,14 +192,14 @@ export default async function HomePage() {
           <div className="mx-auto max-w-7xl px-5 py-20">
             <div className="flex items-end justify-between gap-4 mb-7">
               <div>
-                <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+                <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
                   Chegou agora
                 </p>
                 <h2 className="display text-[clamp(22px,3vw,34px)]">Últimos no pátio</h2>
               </div>
               <Link
                 href="/veiculos"
-                className="text-[12px] font-semibold text-white/50 hover:text-flame transition-colors whitespace-nowrap"
+                className="text-[12px] font-semibold text-white/50 hover:text-gold transition-colors whitespace-nowrap"
               >
                 ver o pátio →
               </Link>
@@ -222,7 +222,7 @@ export default async function HomePage() {
 
       {/* ---------- CONFIANÇA ---------- */}
       <section className="mx-auto max-w-7xl px-5 py-20">
-        <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+        <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
           Por que comprar aqui
         </p>
         <h2 className="display text-[clamp(22px,3.2vw,38px)] max-w-2xl">
@@ -247,7 +247,7 @@ export default async function HomePage() {
             },
           ].map((c) => (
             <div key={c.n} className="bg-base p-8">
-              <p className="text-[11px] font-bold tracking-[0.16em] text-flame">{c.n}</p>
+              <p className="text-[11px] font-bold tracking-[0.16em] text-gold">{c.n}</p>
               <h3 className="mt-5 text-[15px] font-bold uppercase tracking-wide">{c.t}</h3>
               <p className="mt-3 text-[13px] leading-relaxed text-white/45">{c.d}</p>
             </div>
@@ -259,7 +259,7 @@ export default async function HomePage() {
       <section className="border-t border-white/8 bg-surface">
         <div className="mx-auto max-w-7xl px-5 py-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+            <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
               Onde estamos
             </p>
             <h2 className="display text-[clamp(22px,3.2vw,38px)]">Venha até o pátio</h2>
@@ -275,7 +275,7 @@ export default async function HomePage() {
                 href={settings.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg bg-flame hover:bg-flame-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-6 py-3.5 transition-colors"
+                className="rounded-lg bg-gold hover:bg-gold-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-6 py-3.5 transition-colors"
               >
                 Como chegar
               </a>

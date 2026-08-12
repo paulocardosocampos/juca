@@ -66,7 +66,7 @@ export function PhotoUploader({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={uploading || pending}
-          className={`${size} rounded-lg border-2 border-dashed border-white/12 text-white/35 hover:border-flame hover:text-flame transition-colors text-xs cursor-pointer disabled:opacity-50`}
+          className={`${size} rounded-lg border-2 border-dashed border-white/12 text-white/35 hover:border-gold hover:text-gold transition-colors text-xs cursor-pointer disabled:opacity-50`}
         >
           {uploading || pending ? "..." : "+ foto"}
         </button>

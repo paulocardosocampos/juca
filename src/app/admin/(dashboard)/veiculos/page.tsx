@@ -24,7 +24,7 @@ export default async function VehiclesPage() {
         </div>
         <Link
           href="/admin/veiculos/novo"
-          className="display text-xs bg-flame hover:bg-flame-400 text-base rounded-xl px-4 py-3 shadow-card transition-colors"
+          className="display text-xs bg-gold hover:bg-gold-400 text-base rounded-xl px-4 py-3 shadow-card transition-colors"
         >
           + Novo veículo arrematado
         </Link>

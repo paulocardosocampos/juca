@@ -69,7 +69,7 @@ export default async function AdminDashboard() {
         </div>
         <Link
           href="/admin/veiculos/novo"
-          className="display text-xs bg-flame hover:bg-flame-400 text-base rounded-xl px-4 py-3 shadow-card transition-colors"
+          className="display text-xs bg-gold hover:bg-gold-400 text-base rounded-xl px-4 py-3 shadow-card transition-colors"
         >
           + Novo veículo arrematado
         </Link>
@@ -88,7 +88,7 @@ export default async function AdminDashboard() {
         <StatCard
           label="Investido em leilões"
           value={formatBRL(invested)}
-          accent="text-flame"
+          accent="text-gold"
         />
         <StatCard
           label="Valor do estoque"
@@ -124,7 +124,7 @@ export default async function AdminDashboard() {
                     <td className="px-5 py-3">
                       <Link
                         href={`/admin/veiculos/${v.id}`}
-                        className="font-semibold text-flame hover:underline"
+                        className="font-semibold text-gold hover:underline"
                       >
                         {vehicleTitle(v)}
                       </Link>
@@ -136,7 +136,7 @@ export default async function AdminDashboard() {
                       <div className="flex items-center gap-2">
                         <div className="h-2 flex-1 rounded-full bg-raised overflow-hidden">
                           <div
-                            className="h-full bg-flame rounded-full"
+                            className="h-full bg-gold rounded-full"
                             style={{ width: `${pct}%` }}
                           />
                         </div>

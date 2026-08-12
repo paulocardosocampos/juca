@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Configurações" };
 
 const inputCls =
-  "w-full rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-flame";
+  "w-full rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-gold";
 const labelCls = "block text-xs font-semibold text-white/60 mb-1";
 
 export default async function ConfigPage() {
@@ -71,7 +71,7 @@ export default async function ConfigPage() {
           <label className={labelCls}>Texto “sobre” (home e página Sobre)</label>
           <textarea name="about" defaultValue={s.about} className={`${inputCls} min-h-28`} />
         </div>
-        <button className="display text-sm bg-flame hover:bg-flame-400 text-base rounded-xl px-6 py-3 shadow-card transition-colors cursor-pointer">
+        <button className="display text-sm bg-gold hover:bg-gold-400 text-base rounded-xl px-6 py-3 shadow-card transition-colors cursor-pointer">
           Salvar configurações
         </button>
       </form>

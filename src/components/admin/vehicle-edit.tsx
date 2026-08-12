@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { deleteVehicle, updateVehicle } from "@/app/admin/actions";
 
 const inputCls =
-  "w-full rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-flame";
+  "w-full rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-gold";
 const labelCls = "block text-xs font-semibold text-white/60 mb-1";
 
 export interface VehicleEditData {
@@ -132,7 +132,7 @@ export function VehicleEdit({ vehicle }: { vehicle: VehicleEditData }) {
           <button
             onClick={save}
             disabled={pending}
-            className="display text-xs bg-flame hover:bg-flame-400 disabled:opacity-50 text-white rounded-lg px-5 py-2.5 transition-colors cursor-pointer"
+            className="display text-xs bg-gold hover:bg-gold-400 disabled:opacity-50 text-white rounded-lg px-5 py-2.5 transition-colors cursor-pointer"
           >
             {pending ? "Salvando..." : saved ? "Salvo ✓" : "Salvar alterações"}
           </button>

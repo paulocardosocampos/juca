@@ -156,7 +156,7 @@ function Assembly({
   useEffect(() => {
     for (const p of parts) {
       const on = hovered === p.name;
-      const accent = new THREE.Color(GROUP_ACCENT[p.name] ?? "#ff6b1a");
+      const accent = new THREE.Color(GROUP_ACCENT[p.name] ?? "#f0b41c");
       p.container.traverse((o) => {
         const m = o as THREE.Mesh;
         if (!m.isMesh) return;
@@ -204,7 +204,7 @@ function Assembly({
     <group ref={rootRef} scale={fit}>
       {parts.map((p) => {
         const st = stock[p.name];
-        const accent = GROUP_ACCENT[p.name] ?? "#ff6b1a";
+        const accent = GROUP_ACCENT[p.name] ?? "#f0b41c";
         return (
           <group
             key={p.name}
@@ -302,7 +302,7 @@ function Studio() {
     <>
       <ambientLight intensity={0.35} />
       <directionalLight position={[5, 8, 4]} intensity={1.6} castShadow={false} />
-      <directionalLight position={[-6, 3, -5]} intensity={0.7} color="#ff8c42" />
+      <directionalLight position={[-6, 3, -5]} intensity={0.7} color="#fcd427" />
       <Environment resolution={256}>
         <Lightformer intensity={3} position={[0, 6, -6]} scale={[12, 6, 1]} />
         <Lightformer intensity={2} position={[-6, 2, 2]} scale={[3, 8, 1]} color="#9fd0ff" />
@@ -365,33 +365,38 @@ export function ExplodedView({
   return (
     <div ref={shell} className="exp-shell">
       <div className="exp-sticky">
-        <Canvas
-          camera={{ position: [5.5, 2.1, 6.4], fov: 32 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, 2]}
-        >
-          <Suspense fallback={<Loader />}>
-            <Studio />
-            <Assembly
-              key={model.id}
-              model={model}
-              progress={progress}
-              stock={stock}
-              hovered={hovered}
-              setHovered={setHovered}
-              onParts={handleParts}
+        {/* Foto real da fachada, à esquerda, esmaecendo rumo ao carro */}
+        <div className="exp-facade" aria-hidden />
+
+        <div className="exp-stage">
+          <Canvas
+            camera={{ position: [5.5, 2.1, 6.4], fov: 32 }}
+            gl={{ antialias: true, alpha: true }}
+            dpr={[1, 2]}
+          >
+            <Suspense fallback={<Loader />}>
+              <Studio />
+              <Assembly
+                key={model.id}
+                model={model}
+                progress={progress}
+                stock={stock}
+                hovered={hovered}
+                setHovered={setHovered}
+                onParts={handleParts}
+              />
+            </Suspense>
+            <OrbitControls
+              makeDefault
+              enablePan={false}
+              enableZoom={false}
+              autoRotate={spin}
+              autoRotateSpeed={0.55}
+              minPolarAngle={Math.PI / 5}
+              maxPolarAngle={Math.PI / 2.05}
             />
-          </Suspense>
-          <OrbitControls
-            makeDefault
-            enablePan={false}
-            enableZoom={false}
-            autoRotate={spin}
-            autoRotateSpeed={0.55}
-            minPolarAngle={Math.PI / 5}
-            maxPolarAngle={Math.PI / 2.05}
-          />
-        </Canvas>
+          </Canvas>
+        </div>
 
         {/* ---- HUD ---- */}
         <div className="exp-hud">
@@ -425,7 +430,7 @@ export function ExplodedView({
                 <li key={g}>
                   <button
                     data-on={hovered === g ? "1" : "0"}
-                    style={{ ["--accent" as string]: GROUP_ACCENT[g] ?? "#ff6b1a" }}
+                    style={{ ["--accent" as string]: GROUP_ACCENT[g] ?? "#f0b41c" }}
                     onMouseEnter={() => setHovered(g)}
                     onMouseLeave={() => setHovered(null)}
                     onClick={() => router.push(`/pecas?grupo=${encodeURIComponent(g)}`)}

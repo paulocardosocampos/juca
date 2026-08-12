@@ -27,10 +27,10 @@ export default async function YardPage() {
   });
 
   return (
-    <main className="pt-16">
-      <div className="glow-flame border-b border-white/8">
+    <main className="pt-16 lg:pt-20">
+      <div className="glow-gold border-b border-white/8">
         <div className="mx-auto max-w-7xl px-5 py-14">
-          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
             Em desmanche agora
           </p>
           <h1 className="display text-[clamp(28px,4.4vw,52px)]">Veículos no pátio</h1>

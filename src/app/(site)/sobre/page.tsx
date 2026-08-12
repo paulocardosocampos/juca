@@ -20,10 +20,10 @@ export default async function AboutPage() {
   ].filter((s) => s.url);
 
   return (
-    <main className="pt-16">
-      <div className="glow-flame border-b border-white/8">
+    <main className="pt-16 lg:pt-20">
+      <div className="glow-gold border-b border-white/8">
         <div className="mx-auto max-w-7xl px-5 py-16">
-          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
             Quem somos
           </p>
           <h1 className="display text-[clamp(28px,4.8vw,56px)] max-w-3xl">
@@ -61,12 +61,12 @@ export default async function AboutPage() {
           </a>
 
           <div className="rounded-xl border border-white/8 bg-surface p-6">
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-flame">Telefone</p>
+            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">Telefone</p>
             <p className="display text-xl mt-2">{formatPhone(settings.phone2)}</p>
           </div>
 
           <div className="rounded-xl border border-white/8 bg-surface p-6">
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-flame">Endereço</p>
+            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">Endereço</p>
             <p className="text-[15px] font-semibold mt-2 leading-relaxed">
               {settings.address}
               <span className="block text-white/40 font-normal">{settings.city}</span>
@@ -75,7 +75,7 @@ export default async function AboutPage() {
               href={settings.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-4 text-[12px] font-bold tracking-[0.08em] uppercase text-flame hover:underline"
+              className="inline-block mt-4 text-[12px] font-bold tracking-[0.08em] uppercase text-gold hover:underline"
             >
               Como chegar →
             </a>
@@ -83,7 +83,7 @@ export default async function AboutPage() {
 
           {socials.length > 0 && (
             <div className="rounded-xl border border-white/8 bg-surface p-6">
-              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-flame mb-4">
+              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold mb-4">
                 Redes sociais
               </p>
               <div className="flex flex-wrap gap-2">

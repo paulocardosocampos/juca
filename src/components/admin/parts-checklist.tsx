@@ -27,7 +27,7 @@ export interface PartData {
 }
 
 const inputCls =
-  "rounded-lg border border-white/12 bg-surface px-2.5 py-1.5 text-sm outline-none focus:border-flame";
+  "rounded-lg border border-white/12 bg-surface px-2.5 py-1.5 text-sm outline-none focus:border-gold";
 
 const STATUS_ORDER: PartStatus[] = ["AVALIAR", "DISPONIVEL", "VENDIDA", "SUCATA", "DESCARTE"];
 
@@ -114,7 +114,7 @@ function PartRow({ part }: { part: PartData }) {
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className="flex-1 min-w-40 text-left text-sm font-medium text-white hover:text-flame cursor-pointer"
+          className="flex-1 min-w-40 text-left text-sm font-medium text-white hover:text-gold cursor-pointer"
         >
           {part.name}
           {part.quantity > 1 && (
@@ -220,7 +220,7 @@ function PartRow({ part }: { part: PartData }) {
                   onChange={(e) =>
                     startTransition(() => updatePart(part.id, { featured: e.target.checked }))
                   }
-                  className="accent-flame"
+                  className="accent-gold"
                 />
                 ⭐ Destacar na vitrine (só peças à venda)
               </label>
@@ -238,7 +238,7 @@ function PartRow({ part }: { part: PartData }) {
             <button
               onClick={saveDetails}
               disabled={pending}
-              className="text-xs font-bold bg-flame hover:bg-flame-400 text-base rounded-lg px-4 py-2 cursor-pointer disabled:opacity-50"
+              className="text-xs font-bold bg-gold hover:bg-gold-400 text-base rounded-lg px-4 py-2 cursor-pointer disabled:opacity-50"
             >
               Salvar detalhes
             </button>
@@ -427,7 +427,7 @@ export function PartsChecklist({
         <button
           onClick={addPart}
           disabled={addPending || !newName.trim()}
-          className="display text-xs bg-flame hover:bg-flame-400 disabled:opacity-50 text-white rounded-lg px-4 py-2.5 cursor-pointer"
+          className="display text-xs bg-gold hover:bg-gold-400 disabled:opacity-50 text-white rounded-lg px-4 py-2.5 cursor-pointer"
         >
           + Adicionar
         </button>

@@ -95,14 +95,14 @@ export default async function PartDetailPage({
   });
 
   return (
-    <main className="pt-16">
+    <main className="pt-16 lg:pt-20">
       <div className="mx-auto max-w-7xl px-5 py-10">
         <nav className="text-[11px] text-white/30 mb-8">
-          <Link href="/" className="hover:text-flame transition-colors">
+          <Link href="/" className="hover:text-gold transition-colors">
             Início
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/pecas" className="hover:text-flame transition-colors">
+          <Link href="/pecas" className="hover:text-gold transition-colors">
             Peças
           </Link>
           <span className="mx-2">/</span>
@@ -135,7 +135,7 @@ export default async function PartDetailPage({
           <div>
             <Link
               href={`/pecas?grupo=${encodeURIComponent(part.group)}`}
-              className="text-[10px] font-bold tracking-[0.2em] uppercase text-flame hover:underline"
+              className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold hover:underline"
             >
               {part.group}
             </Link>
@@ -218,13 +218,13 @@ export default async function PartDetailPage({
               </div>
             )}
 
-            <div className="mt-8 rounded-xl border border-flame/25 bg-flame/6 px-5 py-4">
+            <div className="mt-8 rounded-xl border border-gold/25 bg-gold/6 px-5 py-4">
               <p className="text-[12px] text-white/70 leading-relaxed">
                 Peça de desmanche <b className="text-white">legalizado pelo DETRAN</b>, com origem
                 em leilão oficial.{" "}
                 <Link
                   href={`/veiculos/${part.vehicle.id}`}
-                  className="text-flame font-semibold hover:underline"
+                  className="text-gold font-semibold hover:underline"
                 >
                   Ver todas as peças deste veículo →
                 </Link>

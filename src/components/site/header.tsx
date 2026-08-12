@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { JucaMark } from "@/components/mascot";
+import { JucaLogo } from "@/components/logo";
 
 const LINKS = [
   { href: "/", label: "Início", exact: true },
@@ -34,16 +34,18 @@ export function SiteHeader({ whatsappUrl }: { whatsappUrl: string }) {
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-5 h-16 flex items-center gap-4">
+      {/* Largura maior que a do conteúdo: em telas grandes o logo fica perto
+          da borda, e não puxado para o centro. */}
+      <div className="mx-auto w-full max-w-[1720px] px-5 lg:px-9 h-16 lg:h-20 flex items-center gap-4">
         <Link
           href="/"
           className="flex items-center gap-2.5 group shrink-0"
           onClick={() => setOpen(false)}
         >
-          <JucaMark className="w-6 h-auto text-flame transition-transform group-hover:-rotate-6" />
-          <span className="text-[13px] font-bold tracking-[0.14em] uppercase leading-none">
-            Juca<span className="text-white/35"> · Carros Velhos</span>
-          </span>
+          <JucaLogo
+            priority
+            className="h-12 lg:h-16 w-auto transition-transform duration-300 group-hover:scale-[1.04]"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-0.5 ml-auto">
@@ -67,7 +69,7 @@ export function SiteHeader({ whatsappUrl }: { whatsappUrl: string }) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-auto md:ml-3 text-[11px] font-bold tracking-[0.1em] uppercase px-4 py-2.5 rounded-lg bg-flame hover:bg-flame-400 text-base transition-colors"
+          className="ml-auto md:ml-3 text-[11px] font-bold tracking-[0.1em] uppercase px-4 py-2.5 rounded-lg bg-gold hover:bg-gold-400 text-base transition-colors"
         >
           Falar agora
         </a>

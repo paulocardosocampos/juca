@@ -42,7 +42,7 @@ export default async function ExplodedPage() {
       <header className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-[#0b0c0e]/70 border-b border-white/8">
         <div className="mx-auto max-w-7xl px-5 h-16 flex items-center gap-4">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <JucaMascotGhost className="w-6 h-auto text-[#ff6b1a] opacity-70 group-hover:opacity-100 transition-opacity" />
+            <JucaMascotGhost className="w-6 h-auto text-[#f0b41c] opacity-70 group-hover:opacity-100 transition-opacity" />
             <span className="text-[13px] font-bold tracking-[0.14em] uppercase">
               Juca<span className="text-white/35"> · Carros Velhos</span>
             </span>
@@ -66,7 +66,7 @@ export default async function ExplodedPage() {
             href={wa}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-auto sm:ml-0 text-[11px] font-bold tracking-wider uppercase px-4 py-2.5 rounded-lg bg-[#ff6b1a] hover:bg-[#ff8c42] text-[#0b0c0e] transition-colors"
+            className="ml-auto sm:ml-0 text-[11px] font-bold tracking-wider uppercase px-4 py-2.5 rounded-lg bg-[#f0b41c] hover:bg-[#fcd427] text-[#0b0c0e] transition-colors"
           >
             Falar agora
           </a>
@@ -86,7 +86,7 @@ export default async function ExplodedPage() {
             { n: "100%", l: "origem em leilão oficial" },
           ].map((s) => (
             <div key={s.l}>
-              <p className="text-[clamp(28px,4vw,44px)] font-black leading-none text-[#ff6b1a] tabular-nums">
+              <p className="text-[clamp(28px,4vw,44px)] font-black leading-none text-[#f0b41c] tabular-nums">
                 {s.n}
               </p>
               <p className="mt-2 text-[12px] leading-snug text-white/45">{s.l}</p>
@@ -97,7 +97,7 @@ export default async function ExplodedPage() {
 
       {/* Como funciona */}
       <section className="mx-auto max-w-7xl px-5 py-20">
-        <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#ff6b1a] mb-4">
+        <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-[#f0b41c] mb-4">
           Do leilão à prateleira
         </p>
         <h2 className="text-[clamp(24px,3.4vw,40px)] font-black uppercase leading-[1.05] max-w-xl">
@@ -124,7 +124,7 @@ export default async function ExplodedPage() {
             },
           ].map((c) => (
             <div key={c.n} className="bg-[#121417] p-8">
-              <p className="text-[11px] font-bold tracking-widest text-[#ff6b1a]">{c.n}</p>
+              <p className="text-[11px] font-bold tracking-widest text-[#f0b41c]">{c.n}</p>
               <h3 className="mt-4 text-[15px] font-bold uppercase tracking-wide">{c.t}</h3>
               <p className="mt-3 text-[13px] leading-relaxed text-white/45">{c.d}</p>
             </div>

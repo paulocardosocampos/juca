@@ -1,17 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* ---- Paleta industrial: aço frio + chama ---- */
-  --color-base: #0b0c0e; /* fundo da página */
-  --color-surface: #121417; /* cartões e faixas */
-  --color-raised: #1a1d21; /* elemento sobre cartão */
-  --color-line: #262a30; /* filete de separação */
-  --color-muted: #8b929c; /* texto secundário */
-  --color-dim: #5b626c; /* texto terciário */
+  /* ---------------------------------------------------------------
+     Paleta da marca — amostrada do logo (logo_juca.png) e do material
+     gráfico (juca_folder.jpg): azul-marinho profundo, dourado metálico,
+     cromo e creme.
+     --------------------------------------------------------------- */
 
-  --color-flame-400: #ff8c42;
-  --color-flame: #ff6b1a; /* acento único da marca */
-  --color-flame-600: #e2540c;
+  /* Azul-marinho: fundo e superfícies */
+  --color-base: #05131f; /* fundo da página */
+  --color-surface: #0a1e30; /* cartões e faixas */
+  --color-raised: #12304a; /* elemento sobre cartão */
+  --color-line: #1e405e; /* filete de separação */
+  --color-muted: #9fb4c9; /* texto secundário */
+  --color-dim: #64809b; /* texto terciário */
+
+  /* Dourado: acento único da marca (do "CARROS VELHOS" e dos chevrons) */
+  --color-gold-400: #fcd427; /* brilho / hover */
+  --color-gold: #f0b41c; /* acento principal */
+  --color-gold-600: #b67806; /* sombra do dourado */
+
+  /* Cromo: os relevos prateados do emblema */
+  --color-chrome: #d7d7d9;
+  --color-chrome-dim: #a5a6ab;
+
+  /* Creme: o off-white do material impresso */
+  --color-cream: #f4ede3;
 
   /* Sinalização de estado — usada em etiquetas de status */
   --color-signal-ok: #34d399;
@@ -23,14 +37,14 @@
   --font-display: var(--font-archivo-black);
   --font-sans: var(--font-archivo);
 
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(0 0 0 / 0.7);
-  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.5), 0 24px 56px -16px rgb(0 0 0 / 0.85);
-  --shadow-flame: 0 8px 30px -10px rgb(255 107 26 / 0.55);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px -12px rgb(2 10 20 / 0.7);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.5), 0 24px 56px -16px rgb(2 10 20 / 0.85);
+  --shadow-gold: 0 8px 30px -10px rgb(240 180 28 / 0.45);
 }
 
 body {
   background: var(--color-base);
-  color: #fff;
+  color: var(--color-cream);
   font-family: var(--font-sans), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -49,33 +63,43 @@ body {
   background-size: 26px 26px;
 }
 
-/* Filete de chama: substitui a listra de zebra amarela */
+/* Filete dourado, como os chevrons do emblema */
 .hazard-stripe {
   background-image: linear-gradient(
     90deg,
     transparent,
-    var(--color-flame) 18%,
-    var(--color-flame-400) 50%,
-    var(--color-flame) 82%,
+    var(--color-gold-600) 12%,
+    var(--color-gold) 32%,
+    var(--color-gold-400) 50%,
+    var(--color-gold) 68%,
+    var(--color-gold-600) 88%,
     transparent
   );
 }
 
 /* Brilho de fundo para heros e faixas de destaque */
-.glow-flame {
+.glow-gold {
   background:
-    radial-gradient(110% 70% at 50% 0%, rgb(255 107 26 / 0.1), transparent 62%),
+    radial-gradient(110% 70% at 50% 0%, rgb(240 180 28 / 0.09), transparent 62%),
     var(--color-base);
 }
 
+/* Texto com acabamento de cromo, como os relevos do logo */
+.chrome-text {
+  background: linear-gradient(180deg, #ffffff 0%, #d7d7d9 42%, #8f9196 58%, #e8e8e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 ::selection {
-  background: var(--color-flame);
-  color: #fff;
+  background: var(--color-gold);
+  color: #05131f;
 }
 
 /* Foco visível — o tema escuro engole o outline padrão */
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid var(--color-flame);
+  outline: 2px solid var(--color-gold);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -85,13 +109,13 @@ body {
    ================================================================ */
 
 :root {
-  --steel-950: #0b0c0e;
-  --steel-900: #121417;
-  --steel-800: #1a1d21;
-  --steel-700: #262a30;
-  --steel-500: #6b7280;
-  --flame: #ff6b1a;
-  --flame-soft: #ff8c42;
+  --steel-950: #05131f;
+  --steel-900: #0a1e30;
+  --steel-800: #12304a;
+  --steel-700: #1e405e;
+  --steel-500: #64809b;
+  --gold: #f0b41c;
+  --gold-soft: #fcd427;
 }
 
 .exp-shell {
@@ -106,7 +130,7 @@ body {
   height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(120% 80% at 50% 12%, rgb(255 107 26 / 0.09), transparent 62%),
+    radial-gradient(120% 80% at 50% 12%, rgb(240 180 28 / 0.09), transparent 62%),
     radial-gradient(90% 60% at 78% 84%, rgb(58 168 193 / 0.07), transparent 60%),
     var(--steel-950);
 }
@@ -119,6 +143,82 @@ body {
   background-image: radial-gradient(rgb(255 255 255 / 0.045) 1px, transparent 1px);
   background-size: 26px 26px;
   mask-image: radial-gradient(75% 60% at 50% 50%, #000 25%, transparent 78%);
+}
+
+/* ---- fachada real do pátio ----
+   Entra pela esquerda em opacidade alta e desvanece rumo ao centro, abrindo
+   espaço para o carro 3D à direita. A máscara faz o recorte suave; o véu
+   (::after) garante contraste para o texto do HUD por cima da foto. */
+.exp-facade {
+  position: absolute;
+  inset: 0;
+  width: min(70%, 980px);
+  background-image: url("/fachada-juca.webp");
+  background-size: cover;
+  /* enquadra o muro pintado (mascote + nome), não o telhado */
+  background-position: 34% 72%;
+  opacity: 0.72;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 34%,
+    rgb(0 0 0 / 0.5) 66%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 34%,
+    rgb(0 0 0 / 0.5) 66%,
+    transparent 100%
+  );
+}
+
+.exp-facade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    /* escurece o topo, onde fica o título — embaixo a foto respira */
+    linear-gradient(
+      180deg,
+      rgb(5 19 31 / 0.88) 0%,
+      rgb(5 19 31 / 0.55) 38%,
+      rgb(5 19 31 / 0.12) 70%,
+      rgb(5 19 31 / 0.25) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(5 19 31 / 0.4) 0%,
+      rgb(5 19 31 / 0.22) 50%,
+      transparent 100%
+    );
+}
+
+/* Palco do carro: no desktop desloca para a direita, liberando a fachada */
+.exp-stage {
+  position: absolute;
+  inset: 0;
+}
+
+@media (min-width: 1024px) {
+  .exp-stage {
+    left: 28%;
+  }
+}
+
+/* No mobile a fachada vira pano de fundo do topo, bem discreta */
+@media (max-width: 1023px) {
+  .exp-facade {
+    width: 100%;
+    opacity: 0.3;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0.4) 55%, transparent 88%);
+    mask-image: linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0.4) 55%, transparent 88%);
+  }
+  .exp-facade::after {
+    background: linear-gradient(180deg, rgb(5 19 31 / 0.55) 0%, rgb(5 19 31 / 0.2) 100%);
+  }
 }
 
 /* ---- rótulos técnicos (linha de chamada) ---- */
@@ -142,7 +242,7 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: var(--accent, var(--flame));
+  background: var(--accent, var(--gold));
   box-shadow: 0 0 0 3px rgb(255 255 255 / 0.1);
   flex: none;
 }
@@ -150,7 +250,7 @@ body {
   width: 38px;
   height: 1px;
   flex: none;
-  background: linear-gradient(90deg, var(--accent, var(--flame)), rgb(255 255 255 / 0.22));
+  background: linear-gradient(90deg, var(--accent, var(--gold)), rgb(255 255 255 / 0.22));
 }
 .exp-text {
   padding-left: 9px;
@@ -163,7 +263,7 @@ body {
   transform: translate(-100%, -50%);
 }
 .exp-label[data-side="l"] .exp-line {
-  background: linear-gradient(270deg, var(--accent, var(--flame)), rgb(255 255 255 / 0.22));
+  background: linear-gradient(270deg, var(--accent, var(--gold)), rgb(255 255 255 / 0.22));
 }
 .exp-label[data-side="l"] .exp-text {
   padding-left: 0;
@@ -206,7 +306,7 @@ body {
 }
 .exp-loader-bar div {
   height: 100%;
-  background: var(--flame);
+  background: var(--gold);
   transition: width 0.2s ease;
 }
 
@@ -218,16 +318,23 @@ body {
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(20px, 4vw, 44px);
-  /* a barra fixa tem 64px — o título não pode nascer embaixo dela */
+  /* a barra fixa tem 64px (80px no desktop) — o título não pode nascer
+     embaixo dela */
   padding-top: calc(64px + clamp(20px, 4vw, 44px));
   pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .exp-hud {
+    padding-top: calc(80px + clamp(20px, 4vw, 44px));
+  }
 }
 .exp-kicker {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--flame);
+  color: var(--gold);
   margin-bottom: 12px;
 }
 .exp-title {
@@ -239,7 +346,7 @@ body {
   text-transform: uppercase;
 }
 .exp-title span {
-  color: var(--flame);
+  color: var(--gold);
 }
 .exp-sub {
   margin-top: 14px;
@@ -251,6 +358,13 @@ body {
 
 .exp-hud-top {
   transition: opacity 0.25s ease;
+}
+
+/* O texto acompanha a faixa da fachada e não invade o palco do carro */
+@media (min-width: 1024px) {
+  .exp-hud-top {
+    max-width: 52%;
+  }
 }
 
 /* ---- legenda de conjuntos (inventário ligado ao 3D) ---- */
@@ -357,8 +471,8 @@ body {
   color: #fff;
 }
 .exp-switch button[data-on="1"] {
-  border-color: var(--flame);
-  background: rgb(255 107 26 / 0.14);
+  border-color: var(--gold);
+  background: rgb(240 180 28 / 0.14);
   color: #fff;
 }
 .exp-switch b {
@@ -408,7 +522,7 @@ body {
 .exp-meter span {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--flame), var(--flame-soft));
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
   transition: width 0.12s linear;
 }
 .exp-pct {

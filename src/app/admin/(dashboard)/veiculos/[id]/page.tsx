@@ -82,7 +82,7 @@ export default async function VehicleDetailPage({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
           <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
             <p className="text-[11px] font-semibold uppercase text-white/35">Arremate</p>
-            <p className="display text-lg text-flame">{formatBRL(vehicle.purchaseValue)}</p>
+            <p className="display text-lg text-gold">{formatBRL(vehicle.purchaseValue)}</p>
             <p className="text-[11px] text-white/35">
               {vehicle.auctioneer ?? "leiloeiro n/d"}
               {vehicle.lotNumber ? ` · lote ${vehicle.lotNumber}` : ""} ·{" "}

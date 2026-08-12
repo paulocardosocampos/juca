@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 const FIELD =
-  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[13px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-flame";
+  "w-full rounded-lg border border-white/10 bg-raised px-3.5 py-3 text-[13px] text-white placeholder:text-white/25 outline-none transition-colors focus:border-gold";
 
 export default async function PartsCatalogPage({
   searchParams,
@@ -58,10 +58,10 @@ export default async function PartsCatalogPage({
   ]);
 
   return (
-    <main className="pt-16">
-      <div className="glow-flame border-b border-white/8">
+    <main className="pt-16 lg:pt-20">
+      <div className="glow-gold border-b border-white/8">
         <div className="mx-auto max-w-7xl px-5 py-14">
-          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-flame mb-3">
+          <p className="text-[10px] font-bold tracking-[0.24em] uppercase text-gold mb-3">
             Estoque disponível
           </p>
           <h1 className="display text-[clamp(28px,4.4vw,52px)]">Catálogo de peças</h1>
@@ -117,7 +117,7 @@ export default async function PartsCatalogPage({
               className={FIELD}
             />
           </div>
-          <button className="rounded-lg bg-flame hover:bg-flame-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-7 py-3.5 transition-colors cursor-pointer">
+          <button className="rounded-lg bg-gold hover:bg-gold-400 text-base text-[12px] font-bold tracking-[0.1em] uppercase px-7 py-3.5 transition-colors cursor-pointer">
             Filtrar
           </button>
         </form>
@@ -127,7 +127,7 @@ export default async function PartsCatalogPage({
             {parts.length} {parts.length === 1 ? "peça encontrada" : "peças encontradas"}
           </p>
           {vehicleFilter && (
-            <span className="inline-flex items-center gap-2 text-[11px] font-semibold bg-flame/12 border border-flame/30 text-flame rounded-full px-3 py-1.5">
+            <span className="inline-flex items-center gap-2 text-[11px] font-semibold bg-gold/12 border border-gold/30 text-gold rounded-full px-3 py-1.5">
               Peças do {vehicleTitle(vehicleFilter)}
               <Link href="/pecas" className="hover:text-white" title="Limpar filtro">
                 ✕

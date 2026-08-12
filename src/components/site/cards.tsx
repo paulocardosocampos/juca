@@ -47,13 +47,13 @@ export function PartCard({ part }: { part: PartCardData }) {
           aria-hidden
         />
         {part.featured && (
-          <span className="absolute top-2.5 left-2.5 text-[9px] font-bold tracking-[0.12em] uppercase bg-flame text-base rounded px-2 py-1">
+          <span className="absolute top-2.5 left-2.5 text-[9px] font-bold tracking-[0.12em] uppercase bg-gold text-base rounded px-2 py-1">
             Destaque
           </span>
         )}
       </div>
       <div className="p-4 flex flex-col gap-1 flex-1">
-        <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-flame transition-colors">
+        <h3 className="text-[14px] font-bold leading-snug text-white group-hover:text-gold transition-colors">
           {part.name}
         </h3>
         <p className="text-[11px] text-white/35 leading-snug">{vehicleTitle(part.vehicle)}</p>
@@ -99,13 +99,13 @@ export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
         </span>
       </div>
       <div className="p-4">
-        <h3 className="text-[14px] font-bold text-white group-hover:text-flame transition-colors">
+        <h3 className="text-[14px] font-bold text-white group-hover:text-gold transition-colors">
           {vehicleTitle(vehicle)}
         </h3>
         <p className="text-[11px] text-white/35 mt-1">
           {[vehicle.engine, `${vehicle.doors} portas`, vehicle.color].filter(Boolean).join(" · ")}
         </p>
-        <p className="text-[12px] font-semibold text-flame mt-3">
+        <p className="text-[12px] font-semibold text-gold mt-3">
           {vehicle.availableCount} peça{vehicle.availableCount === 1 ? "" : "s"} disponíve
           {vehicle.availableCount === 1 ? "l" : "is"} →
         </p>

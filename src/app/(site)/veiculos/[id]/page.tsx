@@ -84,14 +84,14 @@ export default async function VehiclePublicPage({
     .filter(([, parts]) => parts.length > 0);
 
   return (
-    <main className="pt-16">
+    <main className="pt-16 lg:pt-20">
       <div className="mx-auto max-w-7xl px-5 py-10">
         <nav className="text-[11px] text-white/30 mb-8">
-          <Link href="/" className="hover:text-flame transition-colors">
+          <Link href="/" className="hover:text-gold transition-colors">
             Início
           </Link>
           <span className="mx-2">/</span>
-          <Link href="/veiculos" className="hover:text-flame transition-colors">
+          <Link href="/veiculos" className="hover:text-gold transition-colors">
             Pátio
           </Link>
           <span className="mx-2">/</span>
@@ -140,7 +140,7 @@ export default async function VehiclePublicPage({
             <p className="text-[14px] text-white/50 mt-6 leading-relaxed">
               {vehicle.parts.length > 0 ? (
                 <>
-                  <b className="text-flame">{vehicle.parts.length} peças disponíveis</b> deste
+                  <b className="text-gold">{vehicle.parts.length} peças disponíveis</b> deste
                   veículo. Não achou a que precisa? Pode estar em avaliação — pergunte para a
                   gente.
                 </>
