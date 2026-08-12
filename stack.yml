@@ -1,16 +1,13 @@
 # ---------------------------------------------------------------------------
 # Stack do Docker Swarm — site Juca Carros Velhos
-# Cole este conteúdo no Portainer: Stacks → Add stack → Web editor
+# Portainer → Stacks → Add stack → Web editor → colar este conteúdo.
 #
-# ANTES DE IMPLANTAR, confira/ajuste os 3 pontos marcados com "AJUSTE":
-#   1. o nome da rede overlay do Traefik (aparece 2x: em "networks" e na label
-#      traefik.docker.network);
-#   2. o nome do entrypoint HTTPS e do certresolver do seu Traefik;
-#   3. as variáveis AUTH_SECRET e ADMIN_PASSWORD.
+# Valores já conferidos no ambiente (Traefik 2.11.2):
+#   rede overlay ....... network_public
+#   entrypoint HTTPS ... websecure  (o entrypoint web já redireciona :80 → :443)
+#   certresolver ....... letsencryptresolver  (desafio HTTP-01)
 #
-# Para descobrir 1 e 2, rode na VPS:
-#   docker service inspect $(docker service ls --filter name=traefik -q) \
-#     --format '{{json .Spec.TaskTemplate.Networks}}{{"\n"}}{{json .Spec.TaskTemplate.ContainerSpec.Args}}'
+# Só falta preencher AUTH_SECRET e ADMIN_PASSWORD, marcados com "PREENCHER".
 # ---------------------------------------------------------------------------
 version: "3.8"
 
@@ -22,15 +19,17 @@ services:
       # Banco SQLite dentro do volume juca_data
       DATABASE_URL: "file:/data/juca.db"
 
-      # AJUSTE 3 — segredo da sessão. Gere um com: openssl rand -base64 33
-      AUTH_SECRET: "COLE_AQUI_UM_SEGREDO_LONGO_E_ALEATORIO"
+      # PREENCHER — gere na VPS com: openssl rand -base64 33
+      AUTH_SECRET: "COLE_AQUI_O_SEGREDO_GERADO"
       AUTH_TRUST_HOST: "true"
+      # Precisa ser o domínio público, senão o login redireciona para o
+      # endereço interno do container.
       AUTH_URL: "https://juca.pcmidialabs.com.br"
 
       # Administrador criado na primeira subida. Trocar a senha aqui e
       # reimplantar a stack redefine a senha do usuário.
       ADMIN_USERNAME: "admin"
-      ADMIN_PASSWORD: "COLE_AQUI_UMA_SENHA_FORTE"
+      ADMIN_PASSWORD: "PREENCHER_COM_UMA_SENHA_FORTE"
       ADMIN_NAME: "Juca"
 
       TZ: "America/Sao_Paulo"
@@ -40,14 +39,16 @@ services:
       - juca_uploads:/app/public/uploads   # fotos enviadas pelo admin
 
     networks:
-      - network_public                     # AJUSTE 1 — rede do Traefik
+      - network_public
 
     deploy:
       mode: replicated
       replicas: 1        # o SQLite exige exatamente 1 réplica
       placement:
         constraints:
-          - node.role == manager   # mantém o volume sempre no mesmo nó
+          # Prende o serviço ao nó que tem os volumes. Se o swarm tiver mais de
+          # um manager, troque por: node.hostname == manager1
+          - node.role == manager
       update_config:
         order: stop-first          # nunca dois containers no mesmo banco
         failure_action: rollback
@@ -63,11 +64,11 @@ services:
           memory: 200M
       labels:
         - traefik.enable=true
-        - traefik.docker.network=network_public          # AJUSTE 1
+        - traefik.docker.network=network_public
         - traefik.http.routers.juca.rule=Host(`juca.pcmidialabs.com.br`)
-        - traefik.http.routers.juca.entrypoints=websecure # AJUSTE 2
+        - traefik.http.routers.juca.entrypoints=websecure
         - traefik.http.routers.juca.tls=true
-        - traefik.http.routers.juca.tls.certresolver=letsencryptresolver # AJUSTE 2
+        - traefik.http.routers.juca.tls.certresolver=letsencryptresolver
         - traefik.http.routers.juca.service=juca
         - traefik.http.services.juca.loadbalancer.server.port=3000
         - traefik.http.services.juca.loadbalancer.passHostHeader=true
@@ -77,5 +78,5 @@ volumes:
   juca_uploads:
 
 networks:
-  network_public:      # AJUSTE 1 — precisa ser a rede overlay já usada pelo Traefik
+  network_public:
     external: true

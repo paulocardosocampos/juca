@@ -8,33 +8,25 @@ precisa de container de banco separado.
 
 ---
 
-## 1. Antes de tudo: descubra 3 valores do seu Traefik
+## 1. Ambiente (já conferido)
 
-Rode na VPS (nó manager):
+| O que | Valor |
+|---|---|
+| Serviço do proxy | `traefik_traefik` (Traefik 2.11.2) |
+| Rede overlay | `network_public` |
+| Entrypoint HTTPS | `websecure` (:443) — o entrypoint `web` já redireciona :80 → :443 |
+| Certresolver | `letsencryptresolver` (desafio HTTP-01) |
 
-```bash
-docker service ls --filter name=traefik
-docker network ls --filter driver=overlay
-docker service inspect $(docker service ls --filter name=traefik -q) \
-  --format '{{range .Spec.TaskTemplate.Networks}}REDE: {{.Target}}{{"\n"}}{{end}}{{range .Spec.TaskTemplate.ContainerSpec.Args}}ARG: {{.}}{{"\n"}}{{end}}'
-```
-
-Anote:
-
-| O que | Onde aparece | Exemplos comuns |
-|---|---|---|
-| Rede overlay do Traefik | linhas `REDE:` | `network_public`, `traefik-public`, `proxy` |
-| Entrypoint HTTPS | arg `--entrypoints.<nome>.address=:443` | `websecure`, `https` |
-| Certresolver | arg `--certificatesresolvers.<nome>...` | `letsencryptresolver`, `le` |
-
-Se algum valor for diferente do que está no `stack.yml`, ajuste os pontos
-marcados com **AJUSTE** naquele arquivo.
+O [`stack.yml`](./stack.yml) já vem com esses valores. Como o Traefik roda com
+`--providers.docker.exposedbydefault=false`, a label `traefik.enable=true` é
+obrigatória — ela também já está lá.
 
 ## 2. Aponte o DNS
 
 No painel do domínio, crie um registro **A** para `juca` apontando para o IP da
 VPS (o mesmo das outras stacks). Confirme com `nslookup juca.pcmidialabs.com.br`
-antes de seguir — o Let's Encrypt só emite o certificado se o DNS já resolver.
+antes de seguir — o certificado é emitido por desafio HTTP-01, então o Let's
+Encrypt precisa alcançar `http://juca.pcmidialabs.com.br` na porta 80.
 
 ## 3. Publique a imagem
 
@@ -42,9 +34,9 @@ O push para a branch `main` dispara o workflow **Publicar imagem Docker**
 (aba *Actions* no GitHub). Ao terminar, a imagem estará em
 `ghcr.io/paulocardosocampos/juca:latest`.
 
-**Torne o pacote público** (uma vez só): GitHub → seu perfil → *Packages* →
-`juca` → *Package settings* → *Change visibility* → **Public**. Assim o Swarm
-baixa a imagem sem autenticação.
+O pacote já está **público** (verificado): o Swarm baixa a imagem sem precisar
+de login. Se um dia ele aparecer como privado, o caminho é GitHub → seu perfil
+→ *Packages* → `juca` → *Package settings* → *Change visibility* → **Public**.
 
 > Se preferir manter privado: na VPS rode
 > `docker login ghcr.io -u paulocardosocampos` (senha = um Personal Access Token
