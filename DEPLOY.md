@@ -78,6 +78,29 @@ Depois acesse **https://juca.pcmidialabs.com.br** e faça login em
 
 ---
 
+## Vitrine de demonstração (opcional)
+
+Para apresentar o site antes de existir estoque real, a stack aceita:
+
+```yaml
+      - DEMO_DATA=true
+```
+
+No próximo deploy entram 3 veículos fictícios (Corsa, Strada e Gol) com 69
+peças — 60 à venda, 3 vendidas e 6 em sucata. Rodar de novo não duplica nada.
+
+⚠️ São peças que **não existem**, num site com o WhatsApp real. Ao começar o
+estoque de verdade, remova:
+
+```bash
+# na VPS
+docker exec $(docker ps -q -f name=juca_juca) node /app/scripts/demo-seed.mjs --clear
+```
+
+E troque para `DEMO_DATA=false` na stack, senão o próximo deploy recria tudo.
+O `--clear` apaga somente os veículos marcados como demonstração — o estoque
+cadastrado no `/admin` não é tocado.
+
 ## Atualizar o site depois
 
 1. `git push` na branch `main` (o Actions reconstrói a imagem);

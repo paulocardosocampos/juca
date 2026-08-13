@@ -64,7 +64,7 @@ COPY --from=builder /app/node_modules/bcryptjs ./node_modules/bcryptjs
 COPY --from=prismacli /pcli/node_modules ./prisma-cli/node_modules
 
 COPY --chown=nextjs:nodejs prisma ./prisma
-COPY --chown=nextjs:nodejs scripts/bootstrap.mjs ./scripts/bootstrap.mjs
+COPY --chown=nextjs:nodejs scripts ./scripts
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
