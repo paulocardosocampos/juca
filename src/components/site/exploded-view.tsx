@@ -445,17 +445,22 @@ export function ExplodedView({
           </ul>
 
           <div className="exp-hud-bottom">
-            <div className="exp-switch">
-              {MODELS.map((m) => (
-                <button
-                  key={m.id}
-                  onClick={() => setModelId(m.id)}
-                  data-on={m.id === model.id ? "1" : "0"}
-                >
-                  <b>{m.label}</b>
-                  <i>{m.sublabel}</i>
-                </button>
-              ))}
+            <div className="exp-switch-wrap">
+              <p className="exp-switch-hint">
+                Escolha um dos modelos ilustrativos de carros e divirta-se ao
+                explorar nosso catálogo de peças.
+              </p>
+              <div className="exp-switch">
+                {MODELS.map((m) => (
+                  <button
+                    key={m.id}
+                    onClick={() => setModelId(m.id)}
+                    data-on={m.id === model.id ? "1" : "0"}
+                  >
+                    <b>{m.label}</b>
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="exp-tools">

@@ -449,6 +449,20 @@ body {
   gap: 18px;
 }
 
+.exp-switch-wrap {
+  pointer-events: auto;
+}
+
+/* Convite acima dos modelos: deixa claro que os carros são ilustrativos */
+.exp-switch-hint {
+  max-width: 46ch;
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.55);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.6);
+}
+
 .exp-switch {
   display: flex;
   gap: 8px;
@@ -457,7 +471,7 @@ body {
 }
 .exp-switch button {
   text-align: left;
-  padding: 9px 14px;
+  padding: 11px 16px;
   border-radius: 11px;
   border: 1px solid rgb(255 255 255 / 0.1);
   background: rgb(255 255 255 / 0.04);
@@ -477,16 +491,9 @@ body {
 }
 .exp-switch b {
   display: block;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.02em;
-}
-.exp-switch i {
-  display: block;
-  font-style: normal;
-  font-size: 10px;
-  opacity: 0.6;
-  margin-top: 2px;
 }
 
 .exp-tools {
