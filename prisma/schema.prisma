@@ -75,7 +75,7 @@ model Settings {
   storeName    String  @default("Juca Carros Velhos")
   whatsapp     String  @default("5514998664187")
   phone2       String  @default("5514981473010")
-  facebook     String  @default("https://www.facebook.com/JucaCarroVelhos")
+  facebook     String  @default("https://www.facebook.com/anapaula.campos.731572")
   instagram    String?
   tiktok       String?
   mercadoLivre String?
