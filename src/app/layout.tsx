@@ -13,7 +13,14 @@ const archivoBlack = Archivo_Black({
   subsets: ["latin"],
 });
 
+// Endereço público do site. Sem isto o Next monta as URLs absolutas de
+// og:image com "http://localhost:3000" e o preview do link não carrega no
+// WhatsApp nem nas redes. Reaproveita AUTH_URL, que já existe na stack.
+const siteUrl =
+  process.env.SITE_URL ?? process.env.AUTH_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Juca Carros Velhos — Desmanche legalizado DETRAN | Bariri/SP",
     template: "%s | Juca Carros Velhos",
@@ -31,7 +38,7 @@ export const metadata: Metadata = {
 
 // A barra do navegador acompanha o fundo do site em vez de destoar em branco.
 export const viewport = {
-  themeColor: "#0b0c0e",
+  themeColor: "#05131f",
   colorScheme: "dark" as const,
 };
 
