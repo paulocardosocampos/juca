@@ -28,9 +28,16 @@ services:
 
       # Administrador criado na primeira subida. Trocar a senha aqui e
       # reimplantar a stack redefine a senha do usuário.
+      # Mantenha entre aspas: uma senha iniciada por "#" vira comentário YAML
+      # se alguém encostar um espaço antes dela numa edição futura.
       - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=PREENCHER_COM_UMA_SENHA_FORTE
+      - "ADMIN_PASSWORD=PREENCHER_COM_UMA_SENHA_FORTE"
       - ADMIN_NAME=Juca
+
+      # Vitrine de demonstração: 3 veículos fictícios com 69 peças, para
+      # apresentar a loja antes de existir estoque real. Troque para false
+      # (e rode o --clear, veja DEPLOY.md) quando o estoque de verdade entrar.
+      - DEMO_DATA=false
 
       - TZ=America/Sao_Paulo
 
