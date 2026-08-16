@@ -6,6 +6,7 @@ import { PartsChecklist, type PartData } from "@/components/admin/parts-checklis
 import { VehicleEdit } from "@/components/admin/vehicle-edit";
 import { PhotoUploader } from "@/components/admin/photo-uploader";
 import { setVehiclePhotos } from "@/app/admin/actions";
+import { canSeeAuctionData, currentUser } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,9 @@ export default async function VehicleDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const me = await currentUser();
+  const seeAuction = canSeeAuctionData(me);
+
   const vehicle = await prisma.vehicle.findUnique({
     where: { id },
     include: { parts: { orderBy: { name: "asc" } } },
@@ -79,16 +83,20 @@ export default async function VehicleDetailPage({
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5">
-          <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase text-white/35">Arremate</p>
-            <p className="display text-lg text-gold">{formatBRL(vehicle.purchaseValue)}</p>
-            <p className="text-[11px] text-white/35">
-              {vehicle.auctioneer ?? "leiloeiro n/d"}
-              {vehicle.lotNumber ? ` · lote ${vehicle.lotNumber}` : ""} ·{" "}
-              {formatDate(vehicle.auctionDate)}
-            </p>
-          </div>
+        <div
+          className={`grid grid-cols-2 gap-3 mt-5 ${seeAuction ? "sm:grid-cols-4" : "sm:grid-cols-2"}`}
+        >
+          {seeAuction && (
+            <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase text-white/35">Arremate</p>
+              <p className="display text-lg text-gold">{formatBRL(vehicle.purchaseValue)}</p>
+              <p className="text-[11px] text-white/35">
+                {vehicle.auctioneer ?? "leiloeiro n/d"}
+                {vehicle.lotNumber ? ` · lote ${vehicle.lotNumber}` : ""} ·{" "}
+                {formatDate(vehicle.auctionDate)}
+              </p>
+            </div>
+          )}
           <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
             <p className="text-[11px] font-semibold uppercase text-white/35">Já vendido</p>
             <p className="display text-lg text-signal-info">{formatBRL(revenue)}</p>
@@ -97,13 +105,15 @@ export default async function VehicleDetailPage({
             <p className="text-[11px] font-semibold uppercase text-white/35">Estoque à venda</p>
             <p className="display text-lg text-signal-ok">{formatBRL(stockValue)}</p>
           </div>
-          <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
-            <p className="text-[11px] font-semibold uppercase text-white/35">Resultado parcial</p>
-            <p className={`display text-lg ${result >= 0 ? "text-signal-ok" : "text-signal-bad"}`}>
-              {formatBRL(result)}
-            </p>
-            <p className="text-[11px] text-white/35">vendas − arremate</p>
-          </div>
+          {seeAuction && (
+            <div className="rounded-xl bg-base border border-white/8 px-4 py-3">
+              <p className="text-[11px] font-semibold uppercase text-white/35">Resultado parcial</p>
+              <p className={`display text-lg ${result >= 0 ? "text-signal-ok" : "text-signal-bad"}`}>
+                {formatBRL(result)}
+              </p>
+              <p className="text-[11px] text-white/35">vendas − arremate</p>
+            </div>
+          )}
         </div>
 
         <div className="mt-5">
@@ -116,20 +126,24 @@ export default async function VehicleDetailPage({
       </div>
 
       <VehicleEdit
+        canSeeAuction={seeAuction}
         vehicle={{
           id: vehicle.id,
           color: vehicle.color,
           engine: vehicle.engine,
           engineFamily: vehicle.engineFamily,
           status: vehicle.status,
-          auctioneer: vehicle.auctioneer,
-          auctionName: vehicle.auctionName,
-          lotNumber: vehicle.lotNumber,
-          auctionDate: vehicle.auctionDate
-            ? vehicle.auctionDate.toISOString().slice(0, 10)
-            : null,
-          purchaseValue: vehicle.purchaseValue,
-          auctionNotes: vehicle.auctionNotes,
+          // Campos de leilão só saem do servidor para o dono — o funcionário
+          // não recebe esses valores nem no HTML da página.
+          auctioneer: seeAuction ? vehicle.auctioneer : null,
+          auctionName: seeAuction ? vehicle.auctionName : null,
+          lotNumber: seeAuction ? vehicle.lotNumber : null,
+          auctionDate:
+            seeAuction && vehicle.auctionDate
+              ? vehicle.auctionDate.toISOString().slice(0, 10)
+              : null,
+          purchaseValue: seeAuction ? vehicle.purchaseValue : null,
+          auctionNotes: seeAuction ? vehicle.auctionNotes : null,
         }}
       />
 

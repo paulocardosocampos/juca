@@ -9,8 +9,11 @@ export const authConfig = {
     authorized({ auth, request }) {
       const { pathname } = request.nextUrl;
       const isAdminArea = pathname.startsWith("/admin");
-      const isLoginPage = pathname.startsWith("/admin/login");
-      if (!isAdminArea || isLoginPage) return true;
+      // A tela de redefinição precisa ser aberta: quem chega nela justamente
+      // não tem como entrar. O token do link é a credencial.
+      const isPublicAdmin =
+        pathname.startsWith("/admin/login") || pathname.startsWith("/admin/redefinir");
+      if (!isAdminArea || isPublicAdmin) return true;
       return !!auth?.user;
     },
   },

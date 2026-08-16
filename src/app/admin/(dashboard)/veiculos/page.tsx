@@ -2,11 +2,15 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatBRL, formatDate, vehicleTitle } from "@/lib/format";
 import { VEHICLE_STATUS, type VehicleStatus } from "@/lib/constants";
+import { canSeeAuctionData, currentUser } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Veículos" };
 
 export default async function VehiclesPage() {
+  const me = await currentUser();
+  const seeAuction = canSeeAuctionData(me);
+
   const vehicles = await prisma.vehicle.findMany({
     orderBy: { arrivedAt: "desc" },
     include: { parts: { select: { status: true, soldPrice: true } } },
@@ -48,7 +52,7 @@ export default async function VehiclesPage() {
                 <p className="font-bold text-white">{vehicleTitle(v)}</p>
                 <p className="text-xs text-white/40 mt-0.5">
                   {v.engine ?? "motor n/d"} · {v.doors}p · chegou {formatDate(v.arrivedAt)}
-                  {v.auctioneer ? ` · ${v.auctioneer}` : ""}
+                  {seeAuction && v.auctioneer ? ` · ${v.auctioneer}` : ""}
                 </p>
               </div>
               <div className="flex items-center gap-4 text-center text-xs">
@@ -70,9 +74,11 @@ export default async function VehiclesPage() {
                 </div>
               </div>
               <div className="text-right text-xs space-y-1 min-w-32">
-                <p className="text-white/60">
-                  Arremate: <b>{formatBRL(v.purchaseValue)}</b>
-                </p>
+                {seeAuction && (
+                  <p className="text-white/60">
+                    Arremate: <b>{formatBRL(v.purchaseValue)}</b>
+                  </p>
+                )}
                 <p className="text-white/60">
                   Vendido: <b className="text-signal-ok">{formatBRL(receita)}</b>
                 </p>

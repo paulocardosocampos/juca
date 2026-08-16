@@ -11,9 +11,16 @@ const LINKS = [
   { href: "/admin/veiculos", label: "Veículos", icon: "M3 12h14M5 12V8l2-3h6l2 3v4M6 15h1m6 0h1" },
   { href: "/admin/pecas", label: "Peças", icon: "M4 7h5m2 0h5M4 13h5m2 0h5M9 4v6m2 0v6" },
   {
+    href: "/admin/usuarios",
+    label: "Usuários",
+    icon: "M13 16v-1a3 3 0 00-3-3H6a3 3 0 00-3 3v1M8 9a3 3 0 100-6 3 3 0 000 6m9 7v-1a3 3 0 00-2-2.8M13 3.2a3 3 0 010 5.6",
+    ownerOnly: true,
+  },
+  {
     href: "/admin/config",
     label: "Configurações",
     icon: "M10 7a3 3 0 100 6 3 3 0 000-6M10 2v2m0 12v2m8-8h-2M4 10H2",
+    ownerOnly: true,
   },
 ];
 
@@ -29,13 +36,20 @@ function Icon({ d }: { d: string }) {
   );
 }
 
-export function AdminSidebar({ userName }: { userName: string }) {
+export function AdminSidebar({
+  userName,
+  role,
+}: {
+  userName: string;
+  role: string;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const isOwner = role === "OWNER";
 
   const nav = (
     <nav className="flex-1 space-y-0.5 px-3">
-      {LINKS.map((l) => {
+      {LINKS.filter((l) => !l.ownerOnly || isOwner).map((l) => {
         const active = l.exact ? pathname === l.href : pathname.startsWith(l.href);
         return (
           <Link
@@ -58,6 +72,18 @@ export function AdminSidebar({ userName }: { userName: string }) {
 
   const footer = (
     <div className="px-3 pb-4 space-y-0.5">
+      <Link
+        href="/admin/conta"
+        onClick={() => setOpen(false)}
+        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-colors ${
+          pathname === "/admin/conta"
+            ? "text-gold bg-gold/12"
+            : "text-white/40 hover:text-white hover:bg-white/5"
+        }`}
+      >
+        <Icon d="M16 17v-1a4 4 0 00-4-4H8a4 4 0 00-4 4v1M10 8a3 3 0 100-6 3 3 0 000 6" />
+        Minha conta
+      </Link>
       <Link
         href="/"
         target="_blank"

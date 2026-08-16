@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatBRL, formatDate, vehicleTitle } from "@/lib/format";
 import { VEHICLE_STATUS, type VehicleStatus } from "@/lib/constants";
+import { canSeeAuctionData, currentUser } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,10 @@ function StatCard({
 }
 
 export default async function AdminDashboard() {
+  // Funcionário não enxerga quanto o pátio investiu nem o que cada carro custou.
+  const me = await currentUser();
+  const seeAuction = canSeeAuctionData(me);
+
   const [
     vehiclesInYard,
     partsAvailable,
@@ -85,11 +90,13 @@ export default async function AdminDashboard() {
           hint={formatBRL(sold) + " recebidos"}
           accent="text-signal-info"
         />
-        <StatCard
-          label="Investido em leilões"
-          value={formatBRL(invested)}
-          accent="text-gold"
-        />
+        {seeAuction && (
+          <StatCard
+            label="Investido em leilões"
+            value={formatBRL(invested)}
+            accent="text-gold"
+          />
+        )}
         <StatCard
           label="Valor do estoque"
           value={formatBRL(stockAgg._sum.price ?? 0)}
@@ -107,8 +114,8 @@ export default async function AdminDashboard() {
               <tr className="text-left text-xs uppercase tracking-wide text-white/35 border-b border-white/8">
                 <th className="px-5 py-3">Veículo</th>
                 <th className="px-5 py-3">Chegada</th>
-                <th className="px-5 py-3">Leiloeiro</th>
-                <th className="px-5 py-3">Arremate</th>
+                {seeAuction && <th className="px-5 py-3">Leiloeiro</th>}
+                {seeAuction && <th className="px-5 py-3">Arremate</th>}
                 <th className="px-5 py-3">Avaliação das peças</th>
                 <th className="px-5 py-3">Status</th>
               </tr>
@@ -130,8 +137,12 @@ export default async function AdminDashboard() {
                       </Link>
                     </td>
                     <td className="px-5 py-3 text-white/60">{formatDate(v.arrivedAt)}</td>
-                    <td className="px-5 py-3 text-white/60">{v.auctioneer ?? "—"}</td>
-                    <td className="px-5 py-3 text-white/60">{formatBRL(v.purchaseValue)}</td>
+                    {seeAuction && (
+                      <td className="px-5 py-3 text-white/60">{v.auctioneer ?? "—"}</td>
+                    )}
+                    {seeAuction && (
+                      <td className="px-5 py-3 text-white/60">{formatBRL(v.purchaseValue)}</td>
+                    )}
                     <td className="px-5 py-3 min-w-40">
                       <div className="flex items-center gap-2">
                         <div className="h-2 flex-1 rounded-full bg-raised overflow-hidden">
@@ -155,7 +166,7 @@ export default async function AdminDashboard() {
               })}
               {recentVehicles.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-5 py-10 text-center text-white/35">
+                  <td colSpan={seeAuction ? 6 : 4} className="px-5 py-10 text-center text-white/35">
                     Nenhum veículo cadastrado ainda. Clique em “Novo veículo arrematado”.
                   </td>
                 </tr>

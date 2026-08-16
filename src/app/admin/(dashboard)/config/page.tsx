@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { getSettings } from "@/lib/settings";
 import { updateSettings } from "@/app/admin/actions";
+import { currentUser } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Configurações" };
@@ -9,6 +11,10 @@ const inputCls =
 const labelCls = "block text-xs font-semibold text-white/60 mb-1";
 
 export default async function ConfigPage() {
+  const me = await currentUser();
+  if (!me) redirect("/admin/login");
+  if (me.role !== "OWNER") redirect("/admin");
+
   const s = await getSettings();
 
   return (

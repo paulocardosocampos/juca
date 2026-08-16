@@ -38,7 +38,12 @@ const inputCls =
   "w-full rounded-lg border border-white/12 bg-surface px-3 py-2 text-sm outline-none focus:border-gold";
 const labelCls = "block text-xs font-semibold text-white/60 mb-1";
 
-export function VehicleWizard() {
+export function VehicleWizard({
+  canSeeAuction = true,
+}: {
+  /** Funcionário cadastra o veículo sem informar os dados de leilão. */
+  canSeeAuction?: boolean;
+}) {
   const [manual, setManual] = useState(false);
   const [brands, setBrands] = useState<Ref[]>([]);
   const [models, setModels] = useState<Ref[]>([]);
@@ -396,8 +401,10 @@ export function VehicleWizard() {
         </p>
       </section>
 
-      {/* Passo 3 — dados do leilão (privados) */}
-      <section className="bg-surface rounded-2xl shadow-card p-6 space-y-4">
+      {/* Passo 3 — dados do leilão (privados, só para o dono) */}
+      <section
+        className={`bg-surface rounded-2xl shadow-card p-6 space-y-4 ${canSeeAuction ? "" : "hidden"}`}
+      >
         <h2 className="display text-sm text-white">
           3 · Dados do leilão{" "}
           <span className="text-xs font-normal normal-case text-white/35">

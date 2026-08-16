@@ -20,6 +20,12 @@ async function main() {
   const envPassword = process.env.ADMIN_PASSWORD?.trim();
 
   if (existing) {
+    // O administrador da stack é sempre o dono: sem isto ele cairia no papel
+    // padrão (STAFF) e ninguém conseguiria gerenciar usuários.
+    if (existing.role !== "OWNER") {
+      await prisma.user.update({ where: { username }, data: { role: "OWNER" } });
+      console.log(`[juca] usuário "${username}" promovido a dono.`);
+    }
     // Trocar ADMIN_PASSWORD na stack e reimplantar redefine a senha.
     if (envPassword) {
       const same = await bcrypt.compare(envPassword, existing.passwordHash);
@@ -40,6 +46,7 @@ async function main() {
     data: {
       username,
       name: displayName,
+      role: "OWNER",
       passwordHash: await bcrypt.hash(password, 10),
     },
   });

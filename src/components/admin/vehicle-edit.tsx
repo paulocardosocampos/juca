@@ -21,7 +21,14 @@ export interface VehicleEditData {
   auctionNotes: string | null;
 }
 
-export function VehicleEdit({ vehicle }: { vehicle: VehicleEditData }) {
+export function VehicleEdit({
+  vehicle,
+  canSeeAuction = true,
+}: {
+  vehicle: VehicleEditData;
+  /** Funcionário edita o veículo, mas não vê nem altera os dados de leilão. */
+  canSeeAuction?: boolean;
+}) {
   const [form, setForm] = useState({
     color: vehicle.color ?? "",
     engine: vehicle.engine ?? "",
@@ -46,12 +53,18 @@ export function VehicleEdit({ vehicle }: { vehicle: VehicleEditData }) {
         engine: form.engine || null,
         engineFamily: form.engineFamily || null,
         status: form.status,
-        auctioneer: form.auctioneer || null,
-        auctionName: form.auctionName || null,
-        lotNumber: form.lotNumber || null,
-        auctionDate: form.auctionDate || null,
-        purchaseValue: form.purchaseValue ? Number(form.purchaseValue) : null,
-        auctionNotes: form.auctionNotes || null,
+        // Sem permissão, os campos de leilão nem são enviados — assim uma
+        // edição do funcionário não apaga o que ele não pode ver.
+        ...(canSeeAuction
+          ? {
+              auctioneer: form.auctioneer || null,
+              auctionName: form.auctionName || null,
+              lotNumber: form.lotNumber || null,
+              auctionDate: form.auctionDate || null,
+              purchaseValue: form.purchaseValue ? Number(form.purchaseValue) : null,
+              auctionNotes: form.auctionNotes || null,
+            }
+          : {}),
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
@@ -71,7 +84,7 @@ export function VehicleEdit({ vehicle }: { vehicle: VehicleEditData }) {
   return (
     <details className="bg-surface rounded-2xl shadow-card">
       <summary className="display text-sm text-white px-6 py-4 cursor-pointer select-none">
-        ✏️ Editar dados do veículo e do leilão
+        ✏️ Editar dados do veículo{canSeeAuction ? " e do leilão" : ""}
       </summary>
       <div className="px-6 pb-6 space-y-4 border-t border-white/8 pt-4">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -99,35 +112,39 @@ export function VehicleEdit({ vehicle }: { vehicle: VehicleEditData }) {
             <input className={inputCls} value={form.engineFamily} onChange={(e) => set("engineFamily", e.target.value)} />
           </div>
         </div>
-        <p className="text-xs font-semibold text-white/35 uppercase tracking-wide">
-          Leilão (privado — nunca aparece na loja)
-        </p>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-          <div>
-            <label className={labelCls}>Leiloeiro</label>
-            <input className={inputCls} value={form.auctioneer} onChange={(e) => set("auctioneer", e.target.value)} />
-          </div>
-          <div>
-            <label className={labelCls}>Leilão / edital</label>
-            <input className={inputCls} value={form.auctionName} onChange={(e) => set("auctionName", e.target.value)} />
-          </div>
-          <div>
-            <label className={labelCls}>Lote</label>
-            <input className={inputCls} value={form.lotNumber} onChange={(e) => set("lotNumber", e.target.value)} />
-          </div>
-          <div>
-            <label className={labelCls}>Data</label>
-            <input type="date" className={inputCls} value={form.auctionDate} onChange={(e) => set("auctionDate", e.target.value)} />
-          </div>
-          <div>
-            <label className={labelCls}>Arremate (R$)</label>
-            <input type="number" min="0" step="0.01" className={inputCls} value={form.purchaseValue} onChange={(e) => set("purchaseValue", e.target.value)} />
-          </div>
-        </div>
-        <div>
-          <label className={labelCls}>Observações</label>
-          <textarea className={`${inputCls} min-h-16`} value={form.auctionNotes} onChange={(e) => set("auctionNotes", e.target.value)} />
-        </div>
+        {canSeeAuction && (
+          <>
+            <p className="text-xs font-semibold text-white/35 uppercase tracking-wide">
+              Leilão (privado — nunca aparece na loja)
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div>
+                <label className={labelCls}>Leiloeiro</label>
+                <input className={inputCls} value={form.auctioneer} onChange={(e) => set("auctioneer", e.target.value)} />
+              </div>
+              <div>
+                <label className={labelCls}>Leilão / edital</label>
+                <input className={inputCls} value={form.auctionName} onChange={(e) => set("auctionName", e.target.value)} />
+              </div>
+              <div>
+                <label className={labelCls}>Lote</label>
+                <input className={inputCls} value={form.lotNumber} onChange={(e) => set("lotNumber", e.target.value)} />
+              </div>
+              <div>
+                <label className={labelCls}>Data</label>
+                <input type="date" className={inputCls} value={form.auctionDate} onChange={(e) => set("auctionDate", e.target.value)} />
+              </div>
+              <div>
+                <label className={labelCls}>Arremate (R$)</label>
+                <input type="number" min="0" step="0.01" className={inputCls} value={form.purchaseValue} onChange={(e) => set("purchaseValue", e.target.value)} />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>Observações</label>
+              <textarea className={`${inputCls} min-h-16`} value={form.auctionNotes} onChange={(e) => set("auctionNotes", e.target.value)} />
+            </div>
+          </>
+        )}
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <button
             onClick={save}

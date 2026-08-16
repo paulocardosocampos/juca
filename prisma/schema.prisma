@@ -7,12 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Usuário da área administrativa.
+//
+// role OWNER  → dono: enxerga os dados de leilão (leiloeiro, lote, valor de
+//               arremate, margem) e gerencia os usuários do sistema.
+// role STAFF  → funcionário: cuida do estoque (veículos, peças, fotos, vendas)
+//               sem ver quanto foi pago em cada carro.
 model User {
-  id           String   @id @default(cuid())
-  username     String   @unique
-  name         String
-  passwordHash String
-  createdAt    DateTime @default(now())
+  id             String    @id @default(cuid())
+  username       String    @unique
+  name           String
+  passwordHash   String
+  role           String    @default("STAFF")
+  // Redefinição de senha: o dono gera um link no painel e repassa ao
+  // funcionário. Guardamos só o hash do token — quem tiver acesso ao banco
+  // não consegue montar o link.
+  resetTokenHash String?
+  resetTokenExp  DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
 }
 
 // Veículo arrematado em leilão. Os campos de leilão (auctioneer, lotNumber,

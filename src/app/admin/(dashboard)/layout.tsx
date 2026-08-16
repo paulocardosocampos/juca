@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/permissions";
 import { AdminSidebar } from "@/components/admin/sidebar";
 
 export const metadata = { title: "Admin" };
@@ -9,12 +9,12 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user) redirect("/admin/login");
+  const me = await currentUser();
+  if (!me) redirect("/admin/login");
 
   return (
     <div className="min-h-screen bg-base lg:flex">
-      <AdminSidebar userName={session.user.name ?? "Gestor"} />
+      <AdminSidebar userName={me.name || "Gestor"} role={me.role} />
       <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">{children}</main>
     </div>
   );

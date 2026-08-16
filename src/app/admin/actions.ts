@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
 import { auth, signIn, signOut } from "@/auth";
+import { canSeeAuctionData, currentUser, requireOwner } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import { generatePartsChecklist } from "@/lib/part-generator";
 import type { BodyType, PartStatus, Transmission } from "@/lib/constants";
@@ -12,6 +13,18 @@ import { PART_STATUS } from "@/lib/constants";
 async function requireAuth() {
   const session = await auth();
   if (!session?.user) throw new Error("Não autorizado");
+}
+
+/**
+ * Ocultar os campos de leilão na tela não basta: sem esta checagem, uma
+ * chamada direta à action gravaria valores que o funcionário não deveria
+ * nem enxergar. Quem não for dono tem esses campos descartados.
+ */
+async function auctionFieldsFor<T extends Record<string, unknown>>(
+  fields: T,
+): Promise<Partial<T>> {
+  const user = await currentUser();
+  return canSeeAuctionData(user) ? fields : {};
 }
 
 function revalidateAll() {
@@ -82,12 +95,14 @@ export async function createVehicle(input: CreateVehicleInput) {
       engine: input.engine || null,
       engineFamily: input.engineFamily || null,
       color: input.color || null,
-      auctioneer: input.auctioneer || null,
-      auctionName: input.auctionName || null,
-      lotNumber: input.lotNumber || null,
-      auctionDate: input.auctionDate ? new Date(input.auctionDate) : null,
-      purchaseValue: input.purchaseValue ?? null,
-      auctionNotes: input.auctionNotes || null,
+      ...(await auctionFieldsFor({
+        auctioneer: input.auctioneer || null,
+        auctionName: input.auctionName || null,
+        lotNumber: input.lotNumber || null,
+        auctionDate: input.auctionDate ? new Date(input.auctionDate) : null,
+        purchaseValue: input.purchaseValue ?? null,
+        auctionNotes: input.auctionNotes || null,
+      })),
     },
   });
   const checklist = generatePartsChecklist({
@@ -129,17 +144,19 @@ export async function updateVehicle(id: string, input: UpdateVehicleInput) {
       engine: input.engine ?? undefined,
       engineFamily: input.engineFamily ?? undefined,
       status: input.status ?? undefined,
-      auctioneer: input.auctioneer ?? undefined,
-      auctionName: input.auctionName ?? undefined,
-      lotNumber: input.lotNumber ?? undefined,
-      auctionDate:
-        input.auctionDate === undefined
-          ? undefined
-          : input.auctionDate
-            ? new Date(input.auctionDate)
-            : null,
-      purchaseValue: input.purchaseValue ?? undefined,
-      auctionNotes: input.auctionNotes ?? undefined,
+      ...(await auctionFieldsFor({
+        auctioneer: input.auctioneer ?? undefined,
+        auctionName: input.auctionName ?? undefined,
+        lotNumber: input.lotNumber ?? undefined,
+        auctionDate:
+          input.auctionDate === undefined
+            ? undefined
+            : input.auctionDate
+              ? new Date(input.auctionDate)
+              : null,
+        purchaseValue: input.purchaseValue ?? undefined,
+        auctionNotes: input.auctionNotes ?? undefined,
+      })),
     },
   });
   revalidateAll();
@@ -259,7 +276,8 @@ export async function deletePart(id: string) {
 // ---------------- Configurações ----------------
 
 export async function updateSettings(formData: FormData) {
-  await requireAuth();
+  // Contatos e textos da loja são responsabilidade do dono.
+  await requireOwner();
   const str = (k: string) => String(formData.get(k) ?? "").trim();
   await prisma.settings.update({
     where: { id: 1 },

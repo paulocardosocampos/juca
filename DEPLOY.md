@@ -78,6 +78,31 @@ Depois acesse **https://juca.pcmidialabs.com.br** e faça login em
 
 ---
 
+## Usuários e senhas
+
+O painel tem dois perfis:
+
+| Perfil | Vê dados de leilão | Gerencia usuários e configurações |
+|---|---|---|
+| **Dono** (`OWNER`) | sim | sim |
+| **Funcionário** (`STAFF`) | não | não |
+
+O funcionário cadastra veículos e peças, sobe fotos e marca vendas — mas não
+enxerga leiloeiro, lote, valor de arremate nem a margem. Esses campos não são
+sequer enviados ao navegador dele.
+
+**Criar usuário:** `/admin/usuarios` (só o dono vê essa tela).
+
+**Trocar a própria senha:** `/admin/conta`.
+
+**Alguém esqueceu a senha:** o dono entra em `/admin/usuarios`, clica em
+*Gerar link de nova senha*, copia e manda por WhatsApp. O link vale 48 horas
+e deixa de funcionar assim que a senha for criada.
+
+**E se o dono esquecer a própria senha?** Aí o resgate é pela stack: troque
+`ADMIN_PASSWORD` no Portainer e reimplante — o boot regrava a senha do usuário
+indicado em `ADMIN_USERNAME` e garante que ele seja dono.
+
 ## Vitrine de demonstração (opcional)
 
 Para apresentar o site antes de existir estoque real, a stack aceita:
