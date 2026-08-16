@@ -4,6 +4,15 @@ import { formatPhone } from "@/lib/format";
 import { whatsappLink } from "@/lib/whatsapp";
 import type { Settings } from "@prisma/client";
 
+// Contato de quem desenvolveu o site — fixo no código, não vem das
+// configurações da loja (que são do Juca, não do desenvolvedor).
+const DEV_WHATSAPP = whatsappLink(
+  "5514988072950",
+  "Olá PC Mídia Labs, vim pelo site do Desmonte Juca Carros Velhos, " +
+    "gostei muito do site/sistema e gostaria de saber como posso ter um " +
+    "site/sistema para meu negócio também!",
+);
+
 export function SiteFooter({ settings }: { settings: Settings }) {
   const socials = [
     { label: "Facebook", url: settings.facebook },
@@ -103,14 +112,29 @@ export function SiteFooter({ settings }: { settings: Settings }) {
       </div>
 
       <div className="border-t border-white/8">
-        <div className="mx-auto max-w-7xl px-5 py-6 flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/25">
-          <p>
+        {/* O aviso legal é longo demais para uma coluna de grade: centralizado
+            por posicionamento absoluto, ele fica no meio da faixa qualquer que
+            seja a largura da assinatura ao lado. Assim a direita permanece
+            livre para o botão flutuante do WhatsApp, que antes cobria o texto.
+            Abaixo de lg tudo empilha, e o padding extra abre espaço embaixo
+            para o mesmo botão. */}
+        <div className="relative mx-auto max-w-7xl px-5 py-6 pb-24 lg:pb-6 text-[11px] text-white/25">
+          <p className="text-center lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:whitespace-nowrap">
             © {new Date().getFullYear()} {settings.storeName} · Desmanche legalizado DETRAN ·{" "}
             {settings.city}
           </p>
-          {/* Assinatura do desenvolvedor. Quando o site da PC Mídia Labs
-              existir, basta envolver em <a href="..."> — ver README. */}
-          <p className="text-white/20">Desenvolvido por PC Mídia Labs</p>
+          {/* Assinatura do desenvolvedor: leva a uma conversa no WhatsApp da
+              PC Mídia Labs já com a mensagem escrita. */}
+          <p className="mt-2 lg:mt-0 text-center lg:text-left">
+            <a
+              href={DEV_WHATSAPP}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/20 hover:text-white/60 transition-colors"
+            >
+              Desenvolvido por PC Mídia Labs
+            </a>
+          </p>
         </div>
       </div>
     </footer>
