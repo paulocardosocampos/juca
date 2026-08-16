@@ -22,9 +22,9 @@ services:
       # PREENCHER — gere na VPS com: openssl rand -base64 33
       - AUTH_SECRET=COLE_AQUI_O_SEGREDO_GERADO
       - AUTH_TRUST_HOST=true
-      # Precisa ser o domínio público, senão o login redireciona para o
-      # endereço interno do container.
-      - AUTH_URL=https://juca.pcmidialabs.com.br
+      # Domínio público: define os redirecionamentos do login e a URL da
+      # imagem de compartilhamento (WhatsApp, Facebook).
+      - AUTH_URL=https://jucacarrosvelhos.com.br
 
       # Administrador criado na primeira subida. Trocar a senha aqui e
       # reimplantar a stack redefine a senha do usuário.
@@ -73,11 +73,28 @@ services:
           memory: 200M
       labels:
         - traefik.enable=true
-        - traefik.http.routers.juca.rule=Host(`juca.pcmidialabs.com.br`)
+
+        # --- domínio principal ---
+        - traefik.http.routers.juca.rule=Host(`jucacarrosvelhos.com.br`)
         - traefik.http.routers.juca.entrypoints=websecure
-        - traefik.http.routers.juca.priority=1
+        - traefik.http.routers.juca.priority=10
         - traefik.http.routers.juca.tls.certresolver=letsencryptresolver
         - traefik.http.routers.juca.service=juca
+
+        # --- www e domínio antigo: redirecionam para o principal (301) ---
+        - traefik.http.routers.juca-redir.rule=Host(`www.jucacarrosvelhos.com.br`) || Host(`juca.pcmidialabs.com.br`)
+        - traefik.http.routers.juca-redir.entrypoints=websecure
+        - traefik.http.routers.juca-redir.priority=5
+        - traefik.http.routers.juca-redir.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.juca-redir.service=juca
+        - traefik.http.routers.juca-redir.middlewares=juca-canonico
+
+        # O $${1} tem dois cifrões de propósito: o Compose consome um deles.
+        # Com um só, o caminho se perde e todo link antigo cai na home.
+        - traefik.http.middlewares.juca-canonico.redirectregex.regex=^https?://[^/]+/(.*)
+        - traefik.http.middlewares.juca-canonico.redirectregex.replacement=https://jucacarrosvelhos.com.br/$${1}
+        - traefik.http.middlewares.juca-canonico.redirectregex.permanent=true
+
         - traefik.http.services.juca.loadbalancer.server.port=3000
         - traefik.http.services.juca.loadbalancer.passHostHeader=true
 
