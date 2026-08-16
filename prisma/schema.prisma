@@ -87,7 +87,8 @@ model Settings {
   id           Int     @id @default(1)
   storeName    String  @default("Juca Carros Velhos")
   whatsapp     String  @default("5514998664187")
-  phone2       String  @default("5514981473010")
+  // Telefone secundário: opcional. Vazio significa "não mostrar no site".
+  phone2       String?
   facebook     String  @default("https://www.facebook.com/anapaula.campos.731572")
   instagram    String?
   tiktok       String?

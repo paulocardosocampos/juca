@@ -60,10 +60,12 @@ export default async function AboutPage() {
             </p>
           </a>
 
-          <div className="rounded-xl border border-white/8 bg-surface p-6">
-            <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">Telefone</p>
-            <p className="display text-xl mt-2">{formatPhone(settings.phone2)}</p>
-          </div>
+          {settings.phone2 && (
+            <div className="rounded-xl border border-white/8 bg-surface p-6">
+              <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">Telefone</p>
+              <p className="display text-xl mt-2">{formatPhone(settings.phone2)}</p>
+            </div>
+          )}
 
           <div className="rounded-xl border border-white/8 bg-surface p-6">
             <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-gold">Endereço</p>

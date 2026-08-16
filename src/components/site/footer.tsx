@@ -62,7 +62,9 @@ export function SiteFooter({ settings }: { settings: Settings }) {
               </a>
               <span className="text-white/25"> · WhatsApp</span>
             </li>
-            <li className="text-white/50">{formatPhone(settings.phone2)}</li>
+            {settings.phone2 && (
+              <li className="text-white/50">{formatPhone(settings.phone2)}</li>
+            )}
             <li>
               <a
                 href={settings.mapsUrl}

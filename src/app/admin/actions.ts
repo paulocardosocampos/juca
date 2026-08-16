@@ -284,7 +284,8 @@ export async function updateSettings(formData: FormData) {
     data: {
       storeName: str("storeName") || "Juca Carros Velhos",
       whatsapp: str("whatsapp").replace(/\D/g, ""),
-      phone2: str("phone2").replace(/\D/g, ""),
+      // Vazio some do site — ver footer e página Sobre.
+      phone2: str("phone2").replace(/\D/g, "") || null,
       facebook: str("facebook"),
       instagram: str("instagram") || null,
       tiktok: str("tiktok") || null,

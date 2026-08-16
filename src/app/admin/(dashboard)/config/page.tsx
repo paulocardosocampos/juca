@@ -37,8 +37,13 @@ export default async function ConfigPage() {
             <input name="whatsapp" defaultValue={s.whatsapp} className={inputCls} placeholder="5514998664187" />
           </div>
           <div>
-            <label className={labelCls}>Telefone 2</label>
-            <input name="phone2" defaultValue={s.phone2} className={inputCls} />
+            <label className={labelCls}>Telefone 2 (opcional)</label>
+            <input
+              name="phone2"
+              defaultValue={s.phone2 ?? ""}
+              className={inputCls}
+              placeholder="deixe vazio para não exibir"
+            />
           </div>
           <div>
             <label className={labelCls}>Facebook (URL)</label>
