@@ -26,14 +26,30 @@ async function main() {
       await prisma.user.update({ where: { username }, data: { role: "OWNER" } });
       console.log(`[juca] usuário "${username}" promovido a dono.`);
     }
-    // Trocar ADMIN_PASSWORD na stack e reimplantar redefine a senha.
+    // Trocar ADMIN_PASSWORD na stack e reimplantar redefine a senha — mas só
+    // quando o valor da stack realmente muda.
+    //
+    // Comparar com a senha gravada não serve: depois que alguém troca a senha
+    // em /admin/conta, ela passa a diferir da stack para sempre, e todo deploy
+    // desfaria a troca sem avisar. Por isso guardamos a marca do último valor
+    // aplicado e agimos apenas quando essa marca muda.
     if (envPassword) {
-      const same = await bcrypt.compare(envPassword, existing.passwordHash);
-      if (!same) {
+      const stamp = crypto.createHash("sha256").update(envPassword).digest("hex");
+      const settings = await prisma.settings.findUnique({
+        where: { id: 1 },
+        select: { adminPwStamp: true },
+      });
+
+      if (settings?.adminPwStamp !== stamp) {
         await prisma.user.update({
           where: { username },
-          data: { passwordHash: await bcrypt.hash(envPassword, 10) },
+          data: {
+            passwordHash: await bcrypt.hash(envPassword, 10),
+            resetTokenHash: null,
+            resetTokenExp: null,
+          },
         });
+        await prisma.settings.update({ where: { id: 1 }, data: { adminPwStamp: stamp } });
         console.log(`[juca] senha do usuário "${username}" atualizada a partir de ADMIN_PASSWORD.`);
       }
     }
@@ -50,6 +66,15 @@ async function main() {
       passwordHash: await bcrypt.hash(password, 10),
     },
   });
+
+  // Marca o valor já aplicado, senão o boot seguinte acharia que a stack mudou
+  // e reescreveria a senha logo depois de criá-la.
+  if (envPassword) {
+    await prisma.settings.update({
+      where: { id: 1 },
+      data: { adminPwStamp: crypto.createHash("sha256").update(envPassword).digest("hex") },
+    });
+  }
 
   if (envPassword) {
     console.log(`[juca] usuário administrador "${username}" criado com a senha de ADMIN_PASSWORD.`);

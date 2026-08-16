@@ -95,6 +95,9 @@ model Settings {
   address      String  @default("Rua Armando Polônio, 255 – Maria Luiza 3")
   city         String  @default("Bariri/SP")
   mapsUrl      String  @default("https://www.google.com/maps/place/Desmonte+juca+carros+velhos/@-22.0790115,-48.7581759,17z")
+  // Marca do último ADMIN_PASSWORD já aplicado pelo boot. Serve para saber se
+  // o valor da stack mudou desde a última subida — ver scripts/bootstrap.mjs.
+  adminPwStamp String?
   tagline      String  @default("Peças usadas com procedência, direto do pátio!")
   about        String  @default("Desmanche legalizado pelo DETRAN-SP em Bariri. Compramos veículos em leilão, desmontamos com responsabilidade e vendemos peças usadas com procedência garantida.")
 }

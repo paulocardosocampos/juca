@@ -43,11 +43,6 @@ export function SiteFooter({ settings }: { settings: Settings }) {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link href="/admin" className="text-white/25 hover:text-white/60 transition-colors">
-                Área do gestor
-              </Link>
-            </li>
           </ul>
         </div>
 
@@ -106,9 +101,14 @@ export function SiteFooter({ settings }: { settings: Settings }) {
       </div>
 
       <div className="border-t border-white/8">
-        <div className="mx-auto max-w-7xl px-5 py-6 text-[11px] text-white/25">
-          © {new Date().getFullYear()} {settings.storeName} · Desmanche legalizado DETRAN ·{" "}
-          {settings.city}
+        <div className="mx-auto max-w-7xl px-5 py-6 flex flex-wrap items-center justify-between gap-2 text-[11px] text-white/25">
+          <p>
+            © {new Date().getFullYear()} {settings.storeName} · Desmanche legalizado DETRAN ·{" "}
+            {settings.city}
+          </p>
+          {/* Assinatura do desenvolvedor. Quando o site da PC Mídia Labs
+              existir, basta envolver em <a href="..."> — ver README. */}
+          <p className="text-white/20">Desenvolvido por PC Mídia Labs</p>
         </div>
       </div>
     </footer>
